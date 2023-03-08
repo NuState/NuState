@@ -1,5 +1,5 @@
 <script lang="ts">
-    import FooterComponent from "../components/FooterComponent.svelte";
+    import FooterComponent from "$components/FooterComponent.svelte";
     import {
         Button,
         DarkMode,
@@ -14,9 +14,9 @@
     } from "flowbite-svelte";
     import {page} from "$app/stores";
     import {dev} from "$app/environment";
-    import type {ICompany} from "../../libs/company/Company";
-    import {formatSiret} from "../../libs/utils/Utils.js";
-    import ArrowRightSvg from "../components/svg/ArrowRightSvg.svelte";
+    import type {ICompany} from "$libs/company/Company";
+    import {formatSiret} from "$libs/utils/Utils";
+    import ArrowRightSvg from "$components/svg/ArrowRightSvg.svelte";
 
 
     let value: string | undefined

@@ -1,6 +1,6 @@
 import {dev} from '$app/environment';
 import {error} from '@sveltejs/kit';
-import type {ICjItem, ICjQuery} from '../../../../libs/company/Company';
+import type {ICjItem, ICjQuery} from '$libs/company/Company';
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({url, fetch}: { url: URL, fetch: any }) {
