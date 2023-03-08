@@ -1,13 +1,16 @@
+<!--suppress JSDeprecatedSymbols, JSDeprecatedSymbols -->
 <script lang="ts">
     import {page} from "$app/stores";
     import {onMount} from "svelte";
-    import type {ICompany} from "../../../libs/company/Company";
+    import type {ICompany} from "$libs/company/Company";
+    import {CompanyCategory, isActiveCompany, isPhysicalPerson} from "$libs/company/Company";
     import {
         A,
         Accordion,
         AccordionItem,
         Alert,
         Badge,
+        Button,
         Card,
         DarkMode,
         Heading,
@@ -25,29 +28,53 @@
         TableHead,
         TableHeadCell
     } from 'flowbite-svelte';
-    import InfoSvg from "../../components/svg/InfoSvg.svelte";
-    import {CompanyCategory, isActiveCompany, isPhysicalPerson} from "../../../libs/company/Company.js";
-    import {dev} from "$app/environment";
-    import ClockSvg from "../../components/svg/ClockSvg.svelte";
+    import InfoSvg from "$components/svg/InfoSvg.svelte";
+    import {browser, dev} from "$app/environment";
+    import ClockSvg from "$components/svg/ClockSvg.svelte";
     import dateFormat from "dateformat";
-    import {formatSiren} from "../../../libs/utils/Utils.js";
-    import BuildingSvg from "../../components/svg/BuildingSvg.svelte";
-    import BuildingCircleCheckSvg from "../../components/svg/BuildingCircleCheckSvg.svelte";
-    import BuildingCircleXMarkSvg from "../../components/svg/BuildingCircleXMarkSvg.svelte";
-    import UsersSvg from "../../components/svg/UsersSvg.svelte";
-    import TagSvg from "../../components/svg/TagSvg.svelte";
-    import CircleCheckSvg from "../../components/svg/CircleCheckSvg.svelte";
-    import CircleXMarkSvg from "../../components/svg/CircleXMarkSvg.svelte";
+    import {formatSiren, uuid_e4} from "$libs/utils/Utils";
+    import BuildingSvg from "$components/svg/BuildingSvg.svelte";
+    import BuildingCircleCheckSvg from "$components/svg/BuildingCircleCheckSvg.svelte";
+    import BuildingCircleXMarkSvg from "$components/svg/BuildingCircleXMarkSvg.svelte";
+    import UsersSvg from "$components/svg/UsersSvg.svelte";
+    import TagSvg from "$components/svg/TagSvg.svelte";
+    import CircleCheckSvg from "$components/svg/CircleCheckSvg.svelte";
+    import CircleXMarkSvg from "$components/svg/CircleXMarkSvg.svelte";
     import {slide} from "svelte/transition";
-    import FooterComponent from "../../components/FooterComponent.svelte";
+    import FooterComponent from "$components/FooterComponent.svelte";
+    import {type FirebaseApp, initializeApp} from "firebase/app";
+    import {type Analytics, getAnalytics} from "@firebase/analytics";
+    import {type FirebasePerformance, getPerformance} from "@firebase/performance";
+    import {environment} from "../../../environments/environment";
+    import {Database, DataSnapshot, getDatabase, onValue, ref, set} from "@firebase/database";
+    import type {IReport} from "$libs/nustate/Report";
+
+    let firebaseApp: FirebaseApp | undefined
+    let firebaseAnalytics: Analytics | undefined
+    let firebaseDatabase: Database | undefined
+    let firebasePerformance: FirebasePerformance | undefined
+    if (browser) {
+        firebaseApp = initializeApp(environment.firebaseConfig)
+        firebaseAnalytics = getAnalytics(firebaseApp)
+        firebaseDatabase = getDatabase(firebaseApp)
+        firebasePerformance = getPerformance(firebaseApp)
+        console.log(window)
+    }
+
+    /** @type {import('./$types').PageServerData} */
+    export let data
 
     const scoreLog: any[] = []
     let score: number | undefined
     let maxScore: number | undefined
+
     let isError: boolean = false
     let isFetch: boolean = false
+
     const siret: string | undefined = $page.params.siret
+
     let company: ICompany | undefined = undefined
+    let companyReportCount: number = 0
 
     onMount(async () => {
         if (!siret) return isFetch = true
@@ -76,10 +103,10 @@
                 {label: 'Nombre d\'établissements ouverts', value: company?.nombre_etablissements_ouverts},
                 {label: 'Tranche effectif salarié', value: company?.tranche_effectif_salarie},
                 {label: 'Catégorie d\'entreprise', value: company?.categorie_entreprise},
-                {label: 'tat administratif', value: company?.etat_administratif},
+                {label: 'État administratif', value: company?.etat_administratif},
                 {label: 'Dirigeants', value: company?.dirigeants},
                 {label: 'Établissements lié', value: company?.matching_etablisssements},
-            ];
+            ]
             score = testValue.length * 10
             maxScore = testValue.length * 10
 
@@ -101,7 +128,6 @@
             maxScore += 100
             if (company && company.nombre_etablissements && company.nombre_etablissements_ouverts) {
                 const _t = 100 - (((company.nombre_etablissements - company.nombre_etablissements_ouverts) / company.nombre_etablissements * 100).toFixed(0))
-                console.log(_t)
                 score -= _t
                 scoreLog.push({
                     initialScoreValue: score + _t,
@@ -117,11 +143,49 @@
                 })
             }
 
+            try {
+                if (siret && firebaseDatabase) {
+                    onValue(ref(firebaseDatabase, `reports/${siret}`), (dataSnapshot: DataSnapshot) => {
+                        let data: Record<string, IReport> | undefined | null
+                        if (dataSnapshot.exists() && (data = dataSnapshot.val()) && data && Object.values(data) && Object.values(data).length) {
+                            companyReportCount = Object.values(data).length
+                        }
+                    })
+                }
+            } catch (reason) {
+                if (dev) console.log(reason)
+            }
+
         } catch (reason) {
             if (dev) console.log(reason)
             isError = true
         }
     })
+
+    const reportCompany = async () => {
+        if (!siret || !firebaseApp || !firebaseDatabase) return
+        try {
+            await set(ref(firebaseDatabase, `reports/${siret}/${uuid_e4()}`), {
+                clientInformation: {
+                    appCodeName: navigator.appCodeName,
+                    appName: navigator.appName,
+                    appVersion: navigator.appVersion,
+                    platform: navigator.platform,
+                    userAgent: navigator.userAgent,
+                    languages: navigator.languages,
+                    cookieEnabled: navigator.cookieEnabled,
+                    geolocation: navigator.geolocation,
+                    doNotTrack: navigator.doNotTrack,
+                    history: window.history,
+                    caches: window.caches,
+                },
+                clientIp: data.clientIp,
+                at: new Date(Date.now()).toISOString()
+            })
+        } catch (reason) {
+            if (dev) console.log(reason)
+        }
+    }
 
     const getScoreRatio = () => {
         if (!score || !maxScore) return 0
@@ -400,6 +464,20 @@
                     <span class="{getScoreRatio() <  75 ? getScoreRatio() <  50 ? getScoreRatio() <  25 ? 'text-red-500' : 'text-orange-500' : 'text-yellow-500' : 'text-green-500'}">{score ?? 'N/A'}</span>
                     <span class="text-gray-400 dark:text-gray-500">/{maxScore ?? 'N/A'} - {getScoreRatio()?.toFixed(2)}
                         %</span>
+                </Heading>
+            </Card>
+            <Card class="!bg-transparent text-left items-start gap-y-3 drop-shadow-md" size="full">
+                <Heading class="flex inline-flex justify-between" tag="h1">
+                    Rapport
+                    {#if firebaseApp && firebaseDatabase}
+                        <Button on:click={reportCompany}
+                                class="transition-all duration-300 ease-in-out drop-shadow-md shadow dark:hover:opacity-75"
+                                color="red">Signaler
+                        </Button>
+                    {/if}
+                </Heading>
+                <Heading tag="h2">
+                    <span class="{companyReportCount <  75 ? companyReportCount <  50 ? companyReportCount <  25 ? 'text-green-500' : 'text-yellow-500': 'text-orange-500' : 'text-red-500' }">{companyReportCount}</span>
                 </Heading>
             </Card>
             <Card class="!bg-transparent text-left items-start gap-y-4" size="full">
