@@ -44,8 +44,8 @@
     const scoreLog: any[] = []
     let score: number | undefined
     let maxScore: number | undefined
-    let isError = false
-    let isFetch = false
+    let isError: boolean = false
+    let isFetch: boolean = false
     const siret: string | undefined = $page.params.siret
     let company: ICompany | undefined = undefined
 
@@ -140,11 +140,11 @@
 
 {#if !siret || !company || !isFetch}
     {#if !isFetch}
-        <div class="absolute top-0 right-0 left-0 bottom-0 flex items-center justify-center">
-            <div class="relative">
+        <section class="absolute top-0 right-0 left-0 bottom-0 flex items-center justify-center">
+            <article class="relative">
                 <Spinner class="drop-shadow-md" size={12}></Spinner>
-            </div>
-        </div>
+            </article>
+        </section>
     {:else}
         {#if isError}
             <section class="mx-auto w-1/2 my-6 drop-shadow-md">
@@ -410,7 +410,7 @@
                 </div>
                 <Accordion class="relative w-full transition-all duration-300 ease-in-out">
                     <AccordionItem>
-                        <div slot="header drop-shadow-md">Détails</div>
+                        <div slot="header">Détails</div>
                         <div class="max-h-72 overflow-y-auto drop-shadow-md">
                             {#each scoreLog as log}
                                 <P class="py-1 px-3 bg-gray-100 dark:bg-gray-800" size="lg">
