@@ -39,6 +39,7 @@
     import CircleCheckSvg from "../../components/svg/CircleCheckSvg.svelte";
     import CircleXMarkSvg from "../../components/svg/CircleXMarkSvg.svelte";
     import {slide} from "svelte/transition";
+    import FooterComponent from "../../components/FooterComponent.svelte";
 
     const scoreLog: any[] = []
     let score: number | undefined
@@ -133,27 +134,31 @@
     }
 </script>
 
+<svelte:head>
+    <title>NuStateAPI | Company</title>
+</svelte:head>
+
 {#if !siret || !company || !isFetch}
     {#if !isFetch}
         <div class="absolute top-0 right-0 left-0 bottom-0 flex items-center justify-center">
             <div class="relative">
-                <Spinner size={12}></Spinner>
+                <Spinner class="drop-shadow-md" size={12}></Spinner>
             </div>
         </div>
     {:else}
         {#if isError}
-            <section class="mx-auto w-1/2 my-6">
+            <section class="mx-auto w-1/2 my-6 drop-shadow-md">
                 <article>
-                    <Alert color="red">
+                    <Alert class="drop-shadow-md" color="red">
                         <span slot="icon"><InfoSvg></InfoSvg></span>
                         <span class="font-medium">Erreur</span> interne survenue.
                     </Alert>
                 </article>
             </section>
         {:else}
-            <section class="mx-auto w-1/2 my-6">
+            <section class="mx-auto w-1/2 my-6 drop-shadow-md">
                 <article>
-                    <Alert color="red">
+                    <Alert class="drop-shadow-md" color="red">
                         <span slot="icon"><InfoSvg></InfoSvg></span>
                         <span class="font-medium">Numéro de SIRET</span> invalide.
                     </Alert>
@@ -162,8 +167,9 @@
         {/if}
     {/if}
 {:else if isFetch && company}
-    <div class="relative mx-6 lg:mx-24 mt-12 mb-3 transition-all duration-300 ease-in-out flex flex-col-reverse lg:flex-row lg:space-x-3">
-        <Card class="max-lg:mt-3 !bg-transparent text-left items-start gap-y-3 lg:!w-[calc(50%-1rem)]" size="full">
+    <div class="relative mx-6 lg:mx-24 mt-14 mb-3 transition-all duration-300 ease-in-out flex flex-col-reverse lg:flex-row lg:space-x-3 ">
+        <Card class="max-lg:mt-3 !bg-transparent text-left items-start gap-y-3 lg:!w-[calc(50%-1rem)] drop-shadow-md"
+              size="full">
 
             <Heading class="flex inline-flex" tag="h1">
                 {company?.nom_raison_sociale ?? 'N/A'}
@@ -382,14 +388,13 @@
                 </Li>
             </List>
 
-
             <Badge class="pl-0 ml-0 mt-3" color="gray">
                 <ClockSvg className="w-3 h-3 mr-1.5"></ClockSvg>
                 Date de création de l'entreprise: {getDateFormat(company.date_creation)}
             </Badge>
         </Card>
         <div class="lg:!w-[calc(50%-1rem)] flex flex-col space-y-3">
-            <Card class="!bg-transparent text-left items-start gap-y-3" size="full">
+            <Card class="!bg-transparent text-left items-start gap-y-3 drop-shadow-md" size="full">
                 <Heading tag="h1">SCORE</Heading>
                 <Heading tag="h2">
                     <span class="{getScoreRatio() <  75 ? getScoreRatio() <  50 ? getScoreRatio() <  25 ? 'text-red-500' : 'text-orange-500' : 'text-yellow-500' : 'text-green-500'}">{score ?? 'N/A'}</span>
@@ -398,15 +403,15 @@
                 </Heading>
             </Card>
             <Card class="!bg-transparent text-left items-start gap-y-4" size="full">
-                <Heading tag="h1">Logs</Heading>
-                <div class="italic">
+                <Heading class="drop-shadow-md" tag="h1">Logs</Heading>
+                <div class="italic drop-shadow-md">
                     <P color="gray"><span class="font-bold">IS</span> : Valeur initial du score</P>
                     <P color="gray"><span class="font-bold">AS</span> : Valeur après le test du score</P>
                 </div>
                 <Accordion class="relative w-full transition-all duration-300 ease-in-out">
                     <AccordionItem>
-                        <div slot="header">Détails</div>
-                        <div class="max-h-72 overflow-y-auto">
+                        <div slot="header drop-shadow-md">Détails</div>
+                        <div class="max-h-72 overflow-y-auto drop-shadow-md">
                             {#each scoreLog as log}
                                 <P class="py-1 px-3 bg-gray-100 dark:bg-gray-800" size="lg">
                                 <span class="inline-block text-2xl w-[24px] items-center justify-center text-center {log.scoreValue > log.initialScoreValue ? 'text-green-500' : log.scoreValue < log.initialScoreValue ? 'text-red-500' : 'text-gray-400 dark:text-gray-500'}">
@@ -460,9 +465,9 @@
                     </Table>
                 </AccordionItem>
             {:else}
-                <AccordionItem>
+                <AccordionItem class>
                     <div slot="header">Aucune information sur la/le(s) dirigeant(e/s)</div>
-                    <Alert color="red">
+                    <Alert shadow color="red">
                         <span slot="icon"><InfoSvg></InfoSvg></span>
                         <span class="font-medium">Dirigeant(s) inconnu(e/s)</span>, le <Kbd
                             class="px-2.5 py-1.5">score</Kbd> de
@@ -506,7 +511,7 @@
             {:else}
                 <AccordionItem>
                     <div slot="header">Aucune information sur un/des établissement(s) lié</div>
-                    <Alert color="red">
+                    <Alert shadow color="red">
                         <span slot="icon"><InfoSvg></InfoSvg></span>
                         <span class="font-medium">Établissement(s) lié inconnu(s)</span>, le <Kbd
                             class="px-2.5 py-1.5">score</Kbd> de
@@ -515,11 +520,15 @@
                 </AccordionItem>
             {/if}
         </Accordion>
-        <Badge color="gray">
+        <Badge class="my-3 drop-shadow-md" color="gray">
             <ClockSvg className="w-3 h-3 mr-1.5"></ClockSvg>
             Dernière modification {getDateFormat(company.date_mise_a_jour)}
         </Badge>
     </div>
+{/if}
+
+{#if isFetch}
+    <FooterComponent></FooterComponent>
 {/if}
 
 <div class="absolute top-0 right-0 m-2">
