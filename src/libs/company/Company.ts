@@ -29,18 +29,126 @@ export const isMoralPerson = (leader: ILeader) => leader.type_dirigeant === "per
  */
 export const isPhysicalPerson = (leader: ILeader) => leader.type_dirigeant === "personne physique"
 
+
+/**
+ * Check if a company is active.
+ *
+ * @param company - The company object to check.
+ * @returns True if the company is active, false otherwise.
+ */
+export const isActiveCompany = (company: ICompany) => company.etat_administratif?.toUpperCase() === "A"
+
 /**
  * Interface representing an APE
  */
 export interface IApe {
     /**
-     * The code
+     * The code of the activity at level 1.
      */
-    code?: string
+    n1_code?: string;
+
     /**
-     * The label or name of the APE
+     * The label of the activity at level 1.
      */
-    label?: string
+    n1_label?: string;
+
+    /**
+     * The code of the activity at level 2.
+     */
+    n2_code?: number;
+
+    /**
+     * The label of the activity at level 2.
+     */
+    n2_label?: string;
+
+    /**
+     * The code of the activity at level 3.
+     */
+    n3_code?: number;
+
+    /**
+     * The label of the activity at level 3.
+     */
+    n3_label?: string;
+
+    /**
+     * The code of the activity at level 4.
+     */
+    n4_code?: number;
+
+    /**
+     * The label of the activity at level 4.
+     */
+    n4_label?: string;
+
+    /**
+     * The code of the activity at level 5.
+     */
+    n5_code?: string;
+
+    /**
+     * The label of the activity at level 5.
+     */
+    n5_label?: string;
+}
+
+/**
+ * Interface representing a Legal Category
+ */
+export interface ICjItem {
+    /**
+     * The code
+     * @type {string | undefined}
+     */
+    code?: string;
+    /**
+     * The label or name of the Legal Category
+     * @type {string | undefined}
+     */
+    label?: string;
+}
+
+/**
+ * Interface representing a Legal Category Collection
+ */
+export interface ICjQuery {
+    /**
+     * The collection of Legal Categories for section I
+     * @type {ICjItem[] | undefined}
+     */
+    "I"?: ICjItem[];
+    /**
+     * The collection of Legal Categories for section II
+     * @type {ICjItem[] | undefined}
+     */
+    "II"?: ICjItem[];
+    /**
+     * The collection of Legal Categories for section III
+     * @type {ICjItem[] | undefined}
+     */
+    "III"?: ICjItem[];
+}
+
+/**
+ * Interface representing a Legal Category Object
+ */
+export interface ICj {
+    /**
+     * The Legal Category for section I
+     * @type {ICjItem | undefined}
+     */
+    "I"?: ICjItem;
+    /**
+     * The Legal Category for section II
+     * @type {ICjItem | undefined}
+     */
+    "II"?: ICjItem;
+    /**
+     * The Legal Category for section III
+     * @type {ICjItem | undefined}
+     */
+    "III"?: ICjItem;
 }
 
 
@@ -407,7 +515,7 @@ export interface ICompany {
     /**
      * The category of the company.
      */
-    categorie_entreprise?: string | null;
+    categorie_entreprise?: ICompanyCategory | string | null;
 
     /**
      * The administrative status of the company.
@@ -425,14 +533,58 @@ export interface ICompany {
     nature_juridique?: string | null;
 
     /**
+     * Represents the legal nature of a company at level 1.
+     * @type {string | null}
+     */
+    libelle_nature_juridique_n1?: string | null;
+
+    /**
+     * Represents the legal nature of a company at level 2.
+     * @type {string | null}
+     */
+    libelle_nature_juridique_n2?: string | null;
+
+    /**
+     * Represents the legal nature of a company at level 3.
+     * @type {string | null}
+     */
+    libelle_nature_juridique_n3?: string | null;
+
+
+    /**
      * The main activity of the company (code).
      */
     activite_principale?: string | null;
 
     /**
-     * The label of the main activity of the company.
+     * The label of the main activity at level 1.
+     * @type {string | null}
      */
-    libelle_activite_principale?: string | null;
+    libelle_activite_principale_n1?: string | null;
+
+    /**
+     * The label of the main activity at level 2.
+     * @type {string | null}
+     */
+    libelle_activite_principale_n2?: string | null;
+
+    /**
+     * The label of the main activity at level 3.
+     * @type {string | null}
+     */
+    libelle_activite_principale_n3?: string | null;
+
+    /**
+     * The label of the main activity at level 4.
+     * @type {string | null}
+     */
+    libelle_activite_principale_n4?: string | null;
+
+    /**
+     * The label of the main activity at level 5.
+     * @type {string | null}
+     */
+    libelle_activite_principale_n5?: string | null;
 
     /**
      * The section of the main activity of the company.
@@ -454,3 +606,21 @@ export interface ICompany {
      */
     complements?: IComplements | null;
 }
+
+export const CompanyCategory = <const>[
+    /**
+     * Petites et Moyennes Entreprises
+     *
+     */
+    'PME',
+    /**
+     * Entreprises de Taille Intermédiaire
+     */
+    'ETI',
+    /**
+     * Grandes Entreprises
+     */
+    'GE'
+]
+
+export type ICompanyCategory = typeof CompanyCategory[number]
