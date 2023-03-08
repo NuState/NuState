@@ -40,6 +40,9 @@
     import CircleXMarkSvg from "../../components/svg/CircleXMarkSvg.svelte";
     import {slide} from "svelte/transition";
 
+    const scoreLog: any[] = []
+    let score: number | undefined
+    let maxScore: number | undefined
     let isError = false
     let isFetch = false
     const siret: string | undefined = $page.params.siret
@@ -53,16 +56,81 @@
             if (!_temps || _temps.length < 1) return isFetch = true
             company = _temps[0]
             isFetch = true
+
+            const testValue = [
+                {label: 'Raison sociale', value: company?.nom_raison_sociale},
+                {label: 'Nom complet', value: company?.nom_complet},
+                {label: 'Siren', value: company?.siren},
+                {label: 'Nature juridique', value: company?.nature_juridique},
+                {label: 'Libellé nature juridique N1', value: company?.libelle_nature_juridique_n1},
+                {label: 'Libellé nature juridique N2', value: company?.libelle_nature_juridique_n2},
+                {label: 'Libellé nature juridique N3', value: company?.libelle_nature_juridique_n3},
+                {label: 'Activité principale', value: company?.activite_principale},
+                {label: 'Libellé activité principale N1', value: company?.libelle_activite_principale_n1},
+                {label: 'Libellé activité principale N2', value: company?.libelle_activite_principale_n2},
+                {label: 'Libellé activité principale N3', value: company?.libelle_activite_principale_n3},
+                {label: 'Libellé activité principale N4', value: company?.libelle_activite_principale_n4},
+                {label: 'Libellé activité principale N5', value: company?.libelle_activite_principale_n5},
+                {label: 'Nombre d\'établissements', value: company?.nombre_etablissements},
+                {label: 'Nombre d\'établissements ouverts', value: company?.nombre_etablissements_ouverts},
+                {label: 'Tranche effectif salarié', value: company?.tranche_effectif_salarie},
+                {label: 'Catégorie d\'entreprise', value: company?.categorie_entreprise},
+                {label: 'tat administratif', value: company?.etat_administratif},
+                {label: 'Dirigeants', value: company?.dirigeants},
+                {label: 'Établissements lié', value: company?.matching_etablisssements},
+            ];
+            score = testValue.length * 10
+            maxScore = testValue.length * 10
+
+            for (let testValueElement of testValue) {
+                if (!testValueElement.value) score -= 10
+                scoreLog.push({
+                    initialScoreValue: score + (!testValueElement.value ? 10 : 0),
+                    scoreValue: score,
+                    label: testValueElement.label
+                })
+            }
+
+            score += 100
+            scoreLog.push({
+                initialScoreValue: score - 100,
+                scoreValue: score,
+                label: 'Ratio Nombre d\'établissements'
+            })
+            maxScore += 100
+            if (company && company.nombre_etablissements && company.nombre_etablissements_ouverts) {
+                const _t = 100 - (((company.nombre_etablissements - company.nombre_etablissements_ouverts) / company.nombre_etablissements * 100).toFixed(0))
+                console.log(_t)
+                score -= _t
+                scoreLog.push({
+                    initialScoreValue: score + _t,
+                    scoreValue: score,
+                    label: 'Ratio Nombre d\'établissements'
+                })
+            } else {
+                score -= 100
+                scoreLog.push({
+                    initialScoreValue: score + 100,
+                    scoreValue: score,
+                    label: 'Ratio Nombre d\'établissements'
+                })
+            }
+
         } catch (reason) {
             if (dev) console.log(reason)
             isError = true
         }
     })
 
+    const getScoreRatio = () => {
+        if (!score || !maxScore) return 0
+        return (score / maxScore) * 100
+    }
+
     const getDateFormat = (date?: string): string => {
         if (!date) return ''
         return dateFormat(new Date(date), '"le" dd/mm/yyyy "à" hh:mm:ss "("Z")"', false, true)
-    };
+    }
 </script>
 
 {#if !siret || !company || !isFetch}
@@ -94,11 +162,18 @@
         {/if}
     {/if}
 {:else if isFetch && company}
-    <div class="relative mx-6 lg:mx-24 mt-12 mb-3 transition-all duration-300 ease-in-out">
-        <Card class="!bg-transparent text-left items-start gap-y-3" size="full">
+    <div class="relative mx-6 lg:mx-24 mt-12 mb-3 transition-all duration-300 ease-in-out flex flex-col-reverse lg:flex-row lg:space-x-3">
+        <Card class="max-lg:mt-3 !bg-transparent text-left items-start gap-y-3 lg:!w-[calc(50%-1rem)]" size="full">
 
-            <Heading tag="h1">{company?.nom_raison_sociale ?? 'N/A'}</Heading>
-            <P color="gray" tag="h2">{company?.nom_complet ?? 'N/A'}</P>
+            <Heading class="flex inline-flex" tag="h1">
+                {company?.nom_raison_sociale ?? 'N/A'}
+                <Indicator size="sm" color={company?.nom_raison_sociale ? 'green' : 'red'}/>
+            </Heading>
+            <P color="gray" class="flex inline-flex" tag="h2">
+                {company?.nom_complet ?? 'N/A'}
+                <Indicator size="sm" color={company?.nom_complet ? 'green' : 'red'}/>
+            </P>
+
             <span class="flex inline-flex" id="siren1">
                 <Kbd class="px-2.5 py-1.5 !bg-transparent !text-lg">
                    N° SIREN : {formatSiren(company?.siren) ?? 'N/A'}
@@ -307,14 +382,48 @@
                 </Li>
             </List>
 
-            <Heading tag="h3">Informations sur le siège</Heading>
-
 
             <Badge class="pl-0 ml-0 mt-3" color="gray">
                 <ClockSvg className="w-3 h-3 mr-1.5"></ClockSvg>
                 Date de création de l'entreprise: {getDateFormat(company.date_creation)}
             </Badge>
         </Card>
+        <div class="lg:!w-[calc(50%-1rem)] flex flex-col space-y-3">
+            <Card class="!bg-transparent text-left items-start gap-y-3" size="full">
+                <Heading tag="h1">SCORE</Heading>
+                <Heading tag="h2">
+                    <span class="{getScoreRatio() <  75 ? getScoreRatio() <  50 ? getScoreRatio() <  25 ? 'text-red-500' : 'text-orange-500' : 'text-yellow-500' : 'text-green-500'}">{score ?? 'N/A'}</span>
+                    <span class="text-gray-400 dark:text-gray-500">/{maxScore ?? 'N/A'} - {getScoreRatio()?.toFixed(2)}
+                        %</span>
+                </Heading>
+            </Card>
+            <Card class="!bg-transparent text-left items-start gap-y-4" size="full">
+                <Heading tag="h1">Logs</Heading>
+                <div class="italic">
+                    <P color="gray"><span class="font-bold">IS</span> : Valeur initial du score</P>
+                    <P color="gray"><span class="font-bold">AS</span> : Valeur après le test du score</P>
+                </div>
+                <Accordion class="relative w-full transition-all duration-300 ease-in-out">
+                    <AccordionItem>
+                        <div slot="header">Détails</div>
+                        <div class="max-h-72 overflow-y-auto">
+                            {#each scoreLog as log}
+                                <P class="py-1 px-3 bg-gray-100 dark:bg-gray-800" size="lg">
+                                <span class="inline-block text-2xl w-[24px] items-center justify-center text-center {log.scoreValue > log.initialScoreValue ? 'text-green-500' : log.scoreValue < log.initialScoreValue ? 'text-red-500' : 'text-gray-400 dark:text-gray-500'}">
+                                    {log.scoreValue > log.initialScoreValue ? '+' : log.scoreValue < log.initialScoreValue ? '-' : '='}
+                                </span>
+                                    {log.label}
+                                    <span class="{log.scoreValue > log.initialScoreValue ? 'text-green-500' : log.scoreValue < log.initialScoreValue ? 'text-red-500' : 'text-gray-400 dark:text-gray-500'}">
+                                    ( IS: {log.initialScoreValue} , <span class="font-bold">AS</span>: {log.scoreValue}
+                                        )
+                                </span>
+                                </P>
+                            {/each}
+                        </div>
+                    </AccordionItem>
+                </Accordion>
+            </Card>
+        </div>
     </div>
     <div class="relative mx-6 lg:mx-12 mb-3 transition-all duration-300 ease-in-out">
         <Accordion class="w-full transition-all duration-300 ease-in-out">
