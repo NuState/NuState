@@ -3,7 +3,7 @@
 </script>
 
 <section class="mx-auto w-1/2 drop-shadow-md">
-    <article class="my-2">
+    <article class="my-2 w-full">
         <Footer class="!bg-transparent">
             <FooterCopyright by="NuState™" href="https://github.com/NuState/NuStateAPI"
                              year={new Date().getFullYear()}/>

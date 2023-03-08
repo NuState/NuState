@@ -30,6 +30,7 @@
     </article>
 </section>
 
+<!-- TODO : Feature, link a RSS feed or BD -->
 <section class="mt-12 h-full flex flex-col items-center justify-center">
     <article>
         <Timeline>
