@@ -5,7 +5,11 @@ module.exports = {
         "./node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}"
     ],
     theme: {
-        extend: {}
+        extend: {
+            fontFamily: {
+                'kbd': ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'Liberation Mono', 'Courier New,monospace']
+            }
+        }
     },
     plugins: [
         require('flowbite/plugin')

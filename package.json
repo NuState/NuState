@@ -44,6 +44,8 @@
     "dateformat": "^5.0.3",
     "firebase": "^9.17.2",
     "flowbite": "^1.6.3",
-    "flowbite-svelte": "^0.30.6"
+    "flowbite-svelte": "^0.30.6",
+    "french-company-types": "^1.0.0",
+    "rss-parser": "^3.12.0"
   }
 }

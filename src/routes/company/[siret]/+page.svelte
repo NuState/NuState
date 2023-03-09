@@ -2,8 +2,6 @@
 <script lang="ts">
     import {page} from "$app/stores";
     import {onMount} from "svelte";
-    import type {ICompany} from "$libs/company/Company";
-    import {CompanyCategory, isActiveCompany, isPhysicalPerson} from "$libs/company/Company";
     import {
         A,
         Accordion,
@@ -28,26 +26,36 @@
         TableHead,
         TableHeadCell
     } from 'flowbite-svelte';
-    import InfoSvg from "$components/svg/InfoSvg.svelte";
     import {browser, dev} from "$app/environment";
-    import ClockSvg from "$components/svg/ClockSvg.svelte";
     import dateFormat from "dateformat";
-    import {formatSiren, uuid_e4} from "$libs/utils/Utils";
-    import BuildingSvg from "$components/svg/BuildingSvg.svelte";
-    import BuildingCircleCheckSvg from "$components/svg/BuildingCircleCheckSvg.svelte";
-    import BuildingCircleXMarkSvg from "$components/svg/BuildingCircleXMarkSvg.svelte";
-    import UsersSvg from "$components/svg/UsersSvg.svelte";
-    import TagSvg from "$components/svg/TagSvg.svelte";
-    import CircleCheckSvg from "$components/svg/CircleCheckSvg.svelte";
-    import CircleXMarkSvg from "$components/svg/CircleXMarkSvg.svelte";
+    import {formatSiren, type Report, uuid_e4} from "$libs/public-api";
     import {slide} from "svelte/transition";
-    import FooterComponent from "$components/FooterComponent.svelte";
     import {type FirebaseApp, initializeApp} from "firebase/app";
     import {type Analytics, getAnalytics} from "@firebase/analytics";
     import {type FirebasePerformance, getPerformance} from "@firebase/performance";
     import {environment} from "../../../environments/environment";
     import {Database, DataSnapshot, getDatabase, onValue, ref, set} from "@firebase/database";
-    import type {IReport} from "$libs/nustate/Report";
+    import {type Company, CompanyCategories, isActiveCompany, isPhysicalPerson} from "french-company-types";
+    import {
+        BuildingCircleCheckSvg,
+        BuildingCircleXMarkSvg,
+        BuildingSvg,
+        Category,
+        CircleCheckSvg,
+        CircleXMarkSvg,
+        ClockSvg,
+        FooterComponent,
+        InfoSvg,
+        PopoverAPE,
+        PopoverCJ,
+        PopoverCJ1,
+        PopoverCJ2,
+        PopoverCJ3,
+        PopoverSIREN,
+        SubCategory,
+        TagSvg,
+        UsersSvg
+    } from "$components/public-api.js";
 
     let firebaseApp: FirebaseApp | undefined
     let firebaseAnalytics: Analytics | undefined
@@ -73,7 +81,7 @@
 
     const siret: string | undefined = $page.params.siret
 
-    let company: ICompany | undefined = undefined
+    let company: Company | undefined = undefined
     let companyReportCount: number = 0
 
     onMount(async () => {
@@ -146,7 +154,7 @@
             try {
                 if (siret && firebaseDatabase) {
                     onValue(ref(firebaseDatabase, `reports/${siret}`), (dataSnapshot: DataSnapshot) => {
-                        let data: Record<string, IReport> | undefined | null
+                        let data: Record<string, Report> | undefined | null
                         if (dataSnapshot.exists() && (data = dataSnapshot.val()) && data && Object.values(data) && Object.values(data).length) {
                             companyReportCount = Object.values(data).length
                         }
@@ -231,378 +239,373 @@
         {/if}
     {/if}
 {:else if isFetch && company}
-    <div class="relative mx-6 lg:mx-24 mt-14 mb-3 transition-all duration-300 ease-in-out flex flex-col-reverse lg:flex-row lg:space-x-3 ">
-        <Card class="max-lg:mt-3 !bg-transparent text-left items-start gap-y-3 lg:!w-[calc(50%-1rem)] drop-shadow-md"
-              size="full">
+    <section class="relative mx-6 lg:mx-24 mt-14 mb-3 flex flex-col-reverse lg:flex-row lg:space-x-3
+                    transition-all duration-300 ease-in-out">
+        <article class="max-lg:mt-3 lg:!w-[calc(50%-1rem)] h-fit shadow-inner rounded-lg">
+            <Card class="max-lg:mt-3 !bg-transparent text-left items-start gap-y-4"
+                  size="full">
+                <Heading class="flex inline-flex drop-shadow-md" tag="h1">
+                    {company?.nom_raison_sociale ?? 'N/A'}
+                    <Indicator size="lg" color={company?.nom_raison_sociale ? 'green' : 'red'}/>
+                </Heading>
+                <P color="gray" class="flex inline-flex drop-shadow-md" tag="h2">
+                    {company?.nom_complet ?? 'N/A'}
+                    <Indicator size="sm" color={company?.nom_complet ? 'green' : 'red'}/>
+                </P>
 
-            <Heading class="flex inline-flex" tag="h1">
-                {company?.nom_raison_sociale ?? 'N/A'}
-                <Indicator size="sm" color={company?.nom_raison_sociale ? 'green' : 'red'}/>
-            </Heading>
-            <P color="gray" class="flex inline-flex" tag="h2">
-                {company?.nom_complet ?? 'N/A'}
-                <Indicator size="sm" color={company?.nom_complet ? 'green' : 'red'}/>
-            </P>
+                <Category pId="siren_1" hasInfoIcon={true} indicatorColor={company?.siren ? 'green' : 'red'}>
+                    N° SIREN : {formatSiren(company?.siren) ?? 'N/A'}
+                </Category>
+                <PopoverSIREN triggeredBy="#siren_1"></PopoverSIREN>
 
-            <span class="flex inline-flex" id="siren1">
-                <Kbd class="px-2.5 py-1.5 !bg-transparent !text-lg">
-                   N° SIREN : {formatSiren(company?.siren) ?? 'N/A'}
-                </Kbd>
-                <Indicator class="-m-1" size="sm" color={company?.siren ? 'green' : 'red'}/>
-            </span>
-
-            <span class="flex inline-flex" id="cj">
-                <Kbd class="px-2.5 py-1.5 mb-3 !bg-transparent !text-lg">
+                <Category pId="cj_1" hasInfoIcon={true} indicatorColor={company?.nature_juridique ? 'green' : 'red'}>
                     Catégorie juridique : {formatSiren(company?.nature_juridique) ?? 'N/A'}
-                </Kbd>
-                <Indicator class="-m-1" size="sm" color={company?.nature_juridique ? 'green' : 'red'}/>
-            </span>
-            <Popover transition={slide} placement="bottom" class="w-64 text-sm font-light "
-                     title="Catégorie juridique"
-                     trigger="hover"
-                     triggeredBy="#cj">
-                <A class="w-full" href="https://www.sirene.fr/sirene/public/variable/etatAdministratifUniteLegale">Source</A>
-                La nomenclature des catégories juridiques retenue dans la gestion du répertoire Sirene, répertoire
-                officiel d'immatriculation des entreprises et des établissements, a été élaborée sous l'égide du comité
-                interministériel Sirene.
-                C'est une nomenclature à vocation inter-administrative, utilisée aussi dans la gestion du Registre du
-                Commerce et des Sociétés. Elle sert de référence aux Centres de Formalités des Entreprises (CFE) pour
-                recueillir les déclarations des entreprises.
-            </Popover>
-            {#if company.nature_juridique}
-                <div class="-mt-3 ml-2.5 flex flex-col space-y-3">
-                    <span class="flex inline-flex w-fit" id="cj1">
-                        <Kbd class="px-2.5 py-1.5 dark:!bg-gray-800 !text-sm">{company.libelle_nature_juridique_n1 ?? 'N/A'}</Kbd>
-                        <Indicator class="-m-1" size="sm"
-                                   color={company?.libelle_nature_juridique_n1 ? 'green' : 'red'}/>
-                    </span>
-                    <Popover transition={slide} class="w-64 text-sm font-light " title="Catégorie juridique (Niveau I)"
-                             trigger="hover"
-                             triggeredBy="#cj1">
-                        <span class="font-bold">Niveau I</span> : 9 positions définissant les grandes familles de formes
-                        juridiques.
-                    </Popover>
-                    <span class="flex inline-flex w-fit" id="cj2">
-                        <Kbd class="px-2.5 py-1.5 dark:!bg-gray-800 !text-sm">{company.libelle_nature_juridique_n2 ?? 'N/A'}</Kbd>
-                        <Indicator class="-m-1" size="sm"
-                                   color={company?.libelle_nature_juridique_n2 ? 'green' : 'red'}/>
-                    </span>
-                    <Popover transition={slide} class="w-64 text-sm font-light " title="Catégorie juridique (Niveau II)"
-                             trigger="hover"
-                             triggeredBy="#cj2">
-                        <span class="font-bold">Niveau II</span> : 37 positions définissant des catégories juridiques
-                        par rapport aux critères juridiques fondamentaux du droit.
-                    </Popover>
-                    <span class="flex inline-flex w-fit" id="cj3">
-                        <Kbd class="px-2.5 py-1.5 dark:!bg-gray-800 !text-sm">{company.libelle_nature_juridique_n3 ?? 'N/A'}</Kbd>
-                        <Indicator class="-m-1" size="sm"
-                                   color={company?.libelle_nature_juridique_n3 ? 'green' : 'red'}/>
-                    </span>
-                    <Popover transition={slide} class="w-64 text-sm font-light "
-                             title="Catégorie juridique (Niveau III)"
-                             trigger="hover"
-                             triggeredBy="#cj3">
-                        <span class="font-bold">Niveau III</span> : 260 positions permettant de préciser la catégorie
-                        juridique en tenant compte de la spécificité des dispositions juridiques concernant les unités
-                        concernées.
-                    </Popover>
-                </div>
-            {/if}
+                </Category>
+                <PopoverCJ triggeredBy="#cj_1"></PopoverCJ>
 
-            <span class="flex inline-flex" id="ape">
-            <Kbd class="px-2.5 py-1.5 mb-3 !bg-transparent !text-lg">
+                {#if company.nature_juridique}
+                    <div class="ml-2.5 mb-0.5 flex flex-col space-y-4">
+                        <SubCategory pId="cj1_1" hasInfoIcon={true}
+                                     indicatorColor={company?.libelle_nature_juridique_n1 ? 'green' : 'red'}>
+                            {company.libelle_nature_juridique_n1 ?? 'N/A'}
+                        </SubCategory>
+                        <PopoverCJ1 triggeredBy="#cj1_1"></PopoverCJ1>
+
+                        <SubCategory pId="cj2_1" hasInfoIcon={true}
+                                     indicatorColor={company?.libelle_nature_juridique_n2 ? 'green' : 'red'}>
+                            {company.libelle_nature_juridique_n2 ?? 'N/A'}
+                        </SubCategory>
+                        <PopoverCJ2 triggeredBy="#cj2_1"></PopoverCJ2>
+
+                        <SubCategory pId="cj3_1" hasInfoIcon={true}
+                                     indicatorColor={company?.libelle_nature_juridique_n3 ? 'green' : 'red'}>
+                            {company.libelle_nature_juridique_n3 ?? 'N/A'}
+                        </SubCategory>
+                        <PopoverCJ3 triggeredBy="#cj3_1"></PopoverCJ3>
+                    </div>
+                {/if}
+
+                <Category pId="ape_1" hasInfoIcon={true}
+                          indicatorColor={company?.activite_principale ? 'green' : 'red'}>
                     Activité principale exercée : {company.activite_principale ?? 'N/A'}
-                </Kbd>
-                <Indicator class="-m-1" size="sm" color={company?.nature_juridique ? 'green' : 'red'}/>
-            </span>
-            <Popover transition={slide} placement="bottom" class="w-64 text-sm font-light "
-                     title="Activité principale exercée"
-                     trigger="hover"
-                     triggeredBy="#ape">
-                <A class="w-full" href="https://www.insee.fr/fr/metadonnees/definition/c1888">Source</A>
-                L'activité principale exercée (APE) par une unité, est, parmi ses activités, celle qui génère le plus de
-                valeur ajoutée.
-                Elle est déterminée en fonction de la ventilation des différentes activités de l'unité statistique
-                concernée (entreprise, unité légale, établissement). En pratique, comme la valeur ajoutée des
-                différentes branches d'activité est souvent difficile à déterminer à partir des enquêtes statistiques,
-                c'est la ventilation du chiffre d'affaires selon les branches qui est utilisée comme critère de
-                détermination.
-            </Popover>
-            {#if company.activite_principale}
-                <div class="-mt-3 ml-2.5 flex flex-col space-y-3">
-                    <span class="flex inline-flex w-fit">
-                        <Kbd class="px-2.5 py-1.5 dark:!bg-gray-800 !text-sm">{company.libelle_activite_principale_n1 ?? 'N/A'}</Kbd>
-                        <Indicator class="-m-1" size="sm"
-                                   color={company?.libelle_activite_principale_n1 ? 'green' : 'red'}/>
-                    </span>
-                    <span class="flex inline-flex w-fit">
-                        <Kbd class="px-2.5 py-1.5 dark:!bg-gray-800 !text-sm">{company.libelle_activite_principale_n2 ?? 'N/A'}</Kbd>
-                        <Indicator class="-m-1" size="sm"
-                                   color={company?.libelle_activite_principale_n2 ? 'green' : 'red'}/>
-                    </span>
-                    <span class="flex inline-flex w-fit">
-                        <Kbd class="px-2.5 py-1.5 dark:!bg-gray-800 !text-sm">{company.libelle_activite_principale_n3 ?? 'N/A'}</Kbd>
-                        <Indicator class="-m-1" size="sm"
-                                   color={company?.libelle_activite_principale_n3 ? 'green' : 'red'}/>
-                    </span>
-                    <span class="flex inline-flex w-fit">
-                        <Kbd class="px-2.5 py-1.5 dark:!bg-gray-800 !text-sm">{company.libelle_activite_principale_n4 ?? 'N/A'}</Kbd>
-                        <Indicator class="-m-1" size="sm"
-                                   color={company?.libelle_activite_principale_n4 ? 'green' : 'red'}/>
-                    </span>
-                    <span class="flex inline-flex w-fit">
-                        <Kbd class="px-2.5 py-1.5 dark:!bg-gray-800 !text-sm">{company.libelle_activite_principale_n5 ?? 'N/A'}</Kbd>
-                        <Indicator class="-m-1" size="sm"
-                                   color={company?.libelle_activite_principale_n5 ? 'green' : 'red'}/>
-                    </span>
-                </div>
-            {/if}
+                </Category>
+                <PopoverAPE triggeredBy="#ape_1"></PopoverAPE>
 
-            <Heading tag="h3">Informations sur l'entreprise</Heading>
-            <List tag="ul" class="space-y-3 ml-4" list="none">
-                <Li icon>
-                    <BuildingSvg className="h-4 w-5"></BuildingSvg>
-                    <span class="ml-2 flex inline-flex">
+                {#if company.activite_principale}
+                    <div class="ml-2.5 mb-0.5 flex flex-col space-y-4">
+                        <SubCategory indicatorColor={company?.libelle_activite_principale_n1 ? 'green' : 'red'}>
+                            {company.libelle_activite_principale_n1 ?? 'N/A'}
+                        </SubCategory>
+
+                        <SubCategory indicatorColor={company?.libelle_activite_principale_n2 ? 'green' : 'red'}>
+                            {company.libelle_activite_principale_n2 ?? 'N/A'}
+                        </SubCategory>
+
+                        <SubCategory indicatorColor={company?.libelle_activite_principale_n3 ? 'green' : 'red'}>
+                            {company.libelle_activite_principale_n3 ?? 'N/A'}
+                        </SubCategory>
+
+                        <SubCategory indicatorColor={company?.libelle_activite_principale_n4 ? 'green' : 'red'}>
+                            {company.libelle_activite_principale_n4 ?? 'N/A'}
+                        </SubCategory>
+
+                        <SubCategory indicatorColor={company?.libelle_activite_principale_n5 ? 'green' : 'red'}>
+                            {company.libelle_activite_principale_n5 ?? 'N/A'}
+                        </SubCategory>
+                    </div>
+                {/if}
+
+                <Heading tag="h3">Informations sur l'entreprise</Heading>
+                <List tag="ul" class="space-y-3 ml-4" list="none">
+                    <Li icon>
+                        <BuildingSvg className="h-4 w-5"></BuildingSvg>
+                        <span class="ml-2 flex inline-flex">
                         Nombre d'établissement{company?.nombre_etablissements > 1 ? 's' : ''}
-                        <Indicator size="sm" color={company?.nombre_etablissements > 0 ? 'green' : 'red'}/>
+                            <Indicator size="sm" color={company?.nombre_etablissements > 0 ? 'green' : 'red'}/>
                     </span>
-                    <Kbd class="ml-2 px-2.5 py-1 dark:!bg-gray-800">{company?.nombre_etablissements ?? 'N/A'}</Kbd>
-                </Li>
-                <Li icon>
-                    <BuildingCircleCheckSvg className="h-4"></BuildingCircleCheckSvg>
-                    <span class="ml-2 flex inline-flex">
+                        <Kbd class="ml-2 px-2.5 py-1 dark:!bg-gray-800">{company?.nombre_etablissements ?? 'N/A'}</Kbd>
+                    </Li>
+                    <Li icon>
+                        <BuildingCircleCheckSvg className="h-4"></BuildingCircleCheckSvg>
+                        <span class="ml-2 flex inline-flex">
                         Établissement{company?.nombre_etablissements_ouverts > 1 ? 's' : ''} ouvert
                         <Indicator size="sm" color={company?.nombre_etablissements > 0 ? 'green' : 'red'}/>
                     </span>
-                    <Kbd class="ml-2 px-2.5 py-1 dark:!bg-gray-800">{company?.nombre_etablissements_ouverts ?? 'N/A'}</Kbd>
-                </Li>
-                <Li icon>
-                    <BuildingCircleXMarkSvg className="h-4"></BuildingCircleXMarkSvg>
-                    <span class="ml-2 flex inline-flex">
+                        <Kbd class="ml-2 px-2.5 py-1 dark:!bg-gray-800">{company?.nombre_etablissements_ouverts ?? 'N/A'}</Kbd>
+                    </Li>
+                    <Li icon>
+                        <BuildingCircleXMarkSvg className="h-4"></BuildingCircleXMarkSvg>
+                        <span class="ml-2 flex inline-flex">
                         Établissement{(company?.nombre_etablissements - company?.nombre_etablissements_ouverts) > 1 ? 's' : ''}
-                        fermé
+                            fermé
                         <Indicator size="sm"
                                    color={(company?.nombre_etablissements - company?.nombre_etablissements_ouverts) > 0 ? 'red' : 'green'}/>
                     </span>
-                    <Kbd class="ml-2 px-2.5 py-1 dark:!bg-gray-800">{(company?.nombre_etablissements - company?.nombre_etablissements_ouverts) ?? 'N/A'}</Kbd>
-                </Li>
-                <Li icon>
-                    <UsersSvg className="h-4"></UsersSvg>
-                    <span class="ml-2 flex inline-flex">
+                        <Kbd class="ml-2 px-2.5 py-1 dark:!bg-gray-800">{(company?.nombre_etablissements - company?.nombre_etablissements_ouverts) ?? 'N/A'}</Kbd>
+                    </Li>
+                    <Li icon>
+                        <UsersSvg className="h-4"></UsersSvg>
+                        <span class="ml-2 flex inline-flex">
                         Tranche d'effectif{company?.tranche_effectif_salarie > 1 ? 's' : ''} salarié
                         <Indicator size="sm" color={company?.tranche_effectif_salarie > 0 ? 'green' : 'red'}/>
                     </span>
-                    <Kbd class="ml-2 px-2.5 py-1 dark:!bg-gray-800">{company?.tranche_effectif_salarie ?? 'N/A'}</Kbd>
-                </Li>
-                <Li icon>
-                    <TagSvg className="h-4 w-5"></TagSvg>
-                    <span class="ml-2 flex inline-flex">
+                        <Kbd class="ml-2 px-2.5 py-1 dark:!bg-gray-800">{company?.tranche_effectif_salarie ?? 'N/A'}</Kbd>
+                    </Li>
+                    <Li icon>
+                        <TagSvg className="h-4 w-5"></TagSvg>
+                        <span class="ml-2 flex inline-flex">
                         Catégorie d'entreprise
+                            <!--suppress JSCheckFunctionSignatures -->
                         <Indicator size="sm"
-                                   color={CompanyCategory.includes(company?.categorie_entreprise) ? 'green' : 'red'}/>
+                                   color={CompanyCategories.includes(company?.categorie_entreprise) ? 'green' : 'red'}/>
                     </span>
-                    <span id="ce">
+                        <span id="ce">
                         <Kbd class="ml-2 px-2.5 py-1 dark:!bg-gray-800">{company?.categorie_entreprise ?? 'N/A'}</Kbd>
                     </span>
-                    <Popover transition={slide} class="w-64 text-sm font-light " title="Catégorie d'entreprise"
-                             trigger="hover"
-                             triggeredBy="#ce">
-                        <A class="w-full" href="https://www.insee.fr/fr/metadonnees/definition/c1057">Source</A>
-                        <p class="w-full"><span class="font-bold">PME</span> : Les petites et moyennes entreprises dont
-                            les microentreprises.</p>
-                        <p class="w-full"><span class="font-bold">ETI</span> : Les entreprises de taille intermédiaire.
-                        </p>
-                        <p class="w-full"><span class="font-bold">GE</span> : Les grandes entreprises.</p>
-                    </Popover>
-                </Li>
-                <Li icon>
-                    {#if isActiveCompany(company)}
-                        <CircleCheckSvg className="h-4 w-5 text-green-500"></CircleCheckSvg>
-                    {:else}
-                        <CircleXMarkSvg className="h-4 w-5 text-red-500"></CircleXMarkSvg>
-                    {/if}
-                    <span class="ml-2 flex inline-flex">
+                        <Popover transition={slide} class="w-64 text-sm font-light " title="Catégorie d'entreprise"
+                                 trigger="hover"
+                                 triggeredBy="#ce">
+                            <A class="w-full" href="https://www.insee.fr/fr/metadonnees/definition/c1057">Source</A>
+                            <p class="w-full"><span class="font-bold">PME</span> : Les petites et moyennes entreprises
+                                dont
+                                les microentreprises.</p>
+                            <p class="w-full"><span class="font-bold">ETI</span> : Les entreprises de taille
+                                intermédiaire.
+                            </p>
+                            <p class="w-full"><span class="font-bold">GE</span> : Les grandes entreprises.</p>
+                        </Popover>
+                    </Li>
+                    <Li icon>
+                        {#if isActiveCompany(company)}
+                            <CircleCheckSvg className="h-4 w-5 text-green-500"></CircleCheckSvg>
+                        {:else}
+                            <CircleXMarkSvg className="h-4 w-5 text-red-500"></CircleXMarkSvg>
+                        {/if}
+                        <span class="ml-2 flex inline-flex">
                         État administratif
                         <Indicator size="sm"
                                    color={isActiveCompany(company) ? 'green' : 'red'}/>
                     </span>
-                    {#if company.etat_administratif}
+                        {#if company.etat_administratif}
                         <span id="ea">
                             <Kbd class="ml-2 px-2.5 py-1 dark:!bg-gray-800">
                                 {company.etat_administratif} - {isActiveCompany(company) ? 'Active' : 'Cessée'}
                             </Kbd>
                         </span>
-                        <Popover transition={slide} class="w-64 text-sm font-light " title="État administratif"
-                                 trigger="hover"
-                                 triggeredBy="#ea">
-                            <A class="w-full"
-                               href="https://www.sirene.fr/sirene/public/variable/etatAdministratifUniteLegale">Source</A>
-                            Le passage à l'état « Cessée » découle de la prise en compte d'une déclaration de cessation
-                            administrative. Pour les personnes morales, cela correspond au dépôt de la déclaration de
-                            disparition de la personne morale. Pour les personnes physiques, cela correspond soit à la
-                            prise en compte de la déclaration de cessation d'activité déposée par l'exploitant soit au
-                            décès de l'exploitant conformément à la réglementation. En dehors de ces cas, l'unité légale
-                            est toujours à l'état administratif « Active ».
-                            Pour les personnes morales, la cessation administrative est, en théorie, définitive, l'état
-                            administratif "Cessée" est irréversible.
-                        </Popover>
-                    {:else}
-                        <Kbd class="ml-2 px-2.5 py-1 dark:!bg-gray-800">N/A</Kbd>
-                    {/if}
-                </Li>
-            </List>
+                            <Popover transition={slide} class="w-64 text-sm font-light " title="État administratif"
+                                     trigger="hover"
+                                     triggeredBy="#ea">
+                                <A class="w-full"
+                                   href="https://www.sirene.fr/sirene/public/variable/etatAdministratifUniteLegale">Source</A>
+                                Le passage à l'état « Cessée » découle de la prise en compte d'une déclaration de
+                                cessation
+                                administrative. Pour les personnes morales, cela correspond au dépôt de la déclaration
+                                de
+                                disparition de la personne morale. Pour les personnes physiques, cela correspond soit à
+                                la
+                                prise en compte de la déclaration de cessation d'activité déposée par l'exploitant soit
+                                au
+                                décès de l'exploitant conformément à la réglementation. En dehors de ces cas, l'unité
+                                légale
+                                est toujours à l'état administratif « Active ».
+                                Pour les personnes morales, la cessation administrative est, en théorie, définitive,
+                                l'état
+                                administratif "Cessée" est irréversible.
+                            </Popover>
+                        {:else}
+                            <Kbd class="ml-2 px-2.5 py-1 dark:!bg-gray-800">N/A</Kbd>
+                        {/if}
+                    </Li>
+                </List>
 
-            <Badge class="pl-0 ml-0 mt-3" color="gray">
-                <ClockSvg className="w-3 h-3 mr-1.5"></ClockSvg>
-                Date de création de l'entreprise: {getDateFormat(company.date_creation)}
-            </Badge>
-        </Card>
-        <div class="lg:!w-[calc(50%-1rem)] flex flex-col space-y-3">
-            <Card class="!bg-transparent text-left items-start gap-y-3 drop-shadow-md" size="full">
-                <Heading tag="h1">SCORE</Heading>
-                <Heading tag="h2">
-                    <span class="{getScoreRatio() <  75 ? getScoreRatio() <  50 ? getScoreRatio() <  25 ? 'text-red-500' : 'text-orange-500' : 'text-yellow-500' : 'text-green-500'}">{score ?? 'N/A'}</span>
-                    <span class="text-gray-400 dark:text-gray-500">/{maxScore ?? 'N/A'} - {getScoreRatio()?.toFixed(2)}
-                        %</span>
-                </Heading>
+                <Badge class="pl-0 ml-0 mt-3" color="gray">
+                    <ClockSvg className="w-3 h-3 mr-1.5"></ClockSvg>
+                    Date de création de l'entreprise: {getDateFormat(company.date_creation)}
+                </Badge>
             </Card>
-            <Card class="!bg-transparent text-left items-start gap-y-3 drop-shadow-md" size="full">
-                <Heading class="flex inline-flex justify-between" tag="h1">
-                    Rapport
-                    {#if firebaseApp && firebaseDatabase}
-                        <Button on:click={reportCompany}
-                                class="transition-all duration-300 ease-in-out drop-shadow-md shadow dark:hover:opacity-75"
-                                color="red">Signaler
-                        </Button>
-                    {/if}
-                </Heading>
-                <Heading tag="h2">
-                    <span class="{companyReportCount <  75 ? companyReportCount <  50 ? companyReportCount <  25 ? 'text-green-500' : 'text-yellow-500': 'text-orange-500' : 'text-red-500' }">{companyReportCount}</span>
-                </Heading>
-            </Card>
-            <Card class="!bg-transparent text-left items-start gap-y-4" size="full">
-                <Heading class="drop-shadow-md" tag="h1">Logs</Heading>
-                <div class="italic drop-shadow-md">
-                    <P color="gray"><span class="font-bold">IS</span> : Valeur initial du score</P>
-                    <P color="gray"><span class="font-bold">AS</span> : Valeur après le test du score</P>
-                </div>
-                <Accordion class="relative w-full transition-all duration-300 ease-in-out">
-                    <AccordionItem>
-                        <div slot="header">Détails</div>
-                        <div class="max-h-72 overflow-y-auto drop-shadow-md">
-                            {#each scoreLog as log}
-                                <P class="py-1 px-3 bg-gray-100 dark:bg-gray-800" size="lg">
-                                <span class="inline-block text-2xl w-[24px] items-center justify-center text-center {log.scoreValue > log.initialScoreValue ? 'text-green-500' : log.scoreValue < log.initialScoreValue ? 'text-red-500' : 'text-gray-400 dark:text-gray-500'}">
-                                    {log.scoreValue > log.initialScoreValue ? '+' : log.scoreValue < log.initialScoreValue ? '-' : '='}
-                                </span>
-                                    {log.label}
-                                    <span class="{log.scoreValue > log.initialScoreValue ? 'text-green-500' : log.scoreValue < log.initialScoreValue ? 'text-red-500' : 'text-gray-400 dark:text-gray-500'}">
-                                    ( IS: {log.initialScoreValue} , <span class="font-bold">AS</span>: {log.scoreValue}
-                                        )
-                                </span>
-                                </P>
-                            {/each}
+        </article>
+        <article class="lg:!w-[calc(50%-1rem)] flex flex-col space-y-3">
+            <section class="shadow-md rounded-lg">
+                <article>
+                    <Card class="!bg-transparent text-left items-start gap-y-3 shadow-inner" size="full">
+                        <Heading class="drop-shadow-md" tag="h1">SCORE</Heading>
+                        <Heading class="drop-shadow-md" tag="h2">
+                            <span class="{getScoreRatio() <  75 ? getScoreRatio() <  50 ? getScoreRatio() <  25 ? 'text-red-500' : 'text-orange-500' : 'text-yellow-500' : 'text-green-500'}">
+                                {score ?? 'N/A'}
+                            </span>
+                            <span class="text-gray-400 dark:text-gray-500">
+                                /{maxScore ?? 'N/A'} - {getScoreRatio()?.toFixed(2)}%
+                            </span>
+                        </Heading>
+                    </Card>
+                </article>
+            </section>
+            <section class="shadow-md rounded-lg">
+                <article>
+                    <Card shadow class="!bg-transparent text-left items-start gap-y-3 shadow-inner" size="full">
+                        <Heading class="flex inline-flex justify-between drop-shadow-md" tag="h1">
+                            Rapport
+                            {#if firebaseApp && firebaseDatabase}
+                                <Button on:click={reportCompany} color="red"
+                                        class="transition-all duration-300 ease-in-out drop-shadow-md shadow dark:hover:opacity-75">
+                                    Signaler
+                                </Button>
+                            {/if}
+                        </Heading>
+                        <Heading tag="h2"
+                                 class="drop-shadow-md {companyReportCount <  75 ? companyReportCount <  50 ? companyReportCount <  25 ? 'text-green-500' : 'text-yellow-500': 'text-orange-500' : 'text-red-500' }">
+                            {companyReportCount}
+                        </Heading>
+                    </Card>
+                </article>
+            </section>
+            <section class="shadow-md rounded-lg">
+                <article>
+                    <Card shadow class="!bg-transparent text-left items-start gap-y-4 shadow-inner" size="full">
+                        <Heading class="drop-shadow-md" tag="h1">Logs</Heading>
+                        <div class="italic drop-shadow-md">
+                            <P color="gray"><span class="font-bold">IS</span> : Valeur initial du score</P>
+                            <P color="gray"><span class="font-bold">AS</span> : Valeur après le test du score</P>
                         </div>
+                        <Accordion
+                                class="relative max-h-72 overflow-y-auto w-full transition-all duration-300 ease-in-out">
+                            <AccordionItem>
+                                <div slot="header">Détails</div>
+                                <Table shadow>
+                                    <TableHead>
+                                        <TableHeadCell></TableHeadCell>
+                                        <TableHeadCell>Libellé</TableHeadCell>
+                                        <TableHeadCell>IS</TableHeadCell>
+                                        <TableHeadCell>AS</TableHeadCell>
+                                    </TableHead>
+                                    <TableBody class="divide-y">
+                                        {#each scoreLog as log}
+                                            <TableBodyRow>
+                                                <TableBodyCell
+                                                        class="text-lg text-center {log.scoreValue > log.initialScoreValue ? 'text-green-500' : log.scoreValue < log.initialScoreValue ? 'text-red-500' : 'text-gray-400 dark:text-gray-500'}">
+                                                    {log.scoreValue > log.initialScoreValue ? '+' : log.scoreValue < log.initialScoreValue ? '-' : '='}
+                                                </TableBodyCell>
+                                                <TableBodyCell>{log.label}</TableBodyCell>
+                                                <TableBodyCell
+                                                        class={log.scoreValue > log.initialScoreValue ? '!text-green-500 !font-bold' : log.scoreValue < log.initialScoreValue ? '!text-red-500 !font-bold' : '!text-gray-400 !dark:text-gray-500'}>
+                                                    {log.initialScoreValue}
+                                                </TableBodyCell>
+                                                <TableBodyCell
+                                                        class={log.scoreValue > log.initialScoreValue ? '!text-green-500 !font-bold' : log.scoreValue < log.initialScoreValue ? '!text-red-500 !font-bold' : '!text-gray-400 !dark:text-gray-500'}>
+                                                    {log.scoreValue}
+                                                </TableBodyCell>
+                                            </TableBodyRow>
+                                        {/each}
+                                    </TableBody>
+                                </Table>
+                            </AccordionItem>
+                        </Accordion>
+                    </Card>
+                </article>
+            </section>
+        </article>
+    </section>
+    <section class="relative mx-6 lg:mx-12 mb-3 transition-all duration-300 ease-in-out">
+        <article>
+            <Accordion class="w-full transition-all duration-300 ease-in-out">
+                {#if company?.dirigeants && company.dirigeants.length > 0}
+                    <AccordionItem>
+                        <div slot="header">Détails sur {company.dirigeants.length > 1 ? 'les' : 'le/la'}
+                            dirigeant{company.dirigeants.length > 1 ? 's' : '(e)'}</div>
+                        <Table shadow>
+                            <TableHead>
+                                <TableHeadCell>Type</TableHeadCell>
+                                <TableHeadCell>Dénomination / Nom - Prénom</TableHeadCell>
+                                <TableHeadCell>Qualité</TableHeadCell>
+                                <TableHeadCell>Date de naissance</TableHeadCell>
+                                <TableHeadCell>SIREN</TableHeadCell>
+                            </TableHead>
+                            <TableBody class="divide-y">
+                                {#each company.dirigeants as leader}
+                                    <TableBodyRow>
+                                        <TableBodyCell>{leader?.type_dirigeant?.split(' ')?.map(e => e.at(0))?.join('')?.toUpperCase()}</TableBodyCell>
+                                        {#if isPhysicalPerson(leader)}
+                                            <TableBodyCell>{leader?.nom ?? 'N/A'} {leader?.prenoms?.toUpperCase() ?? 'N/A'}</TableBodyCell>
+                                            <TableBodyCell>{leader?.qualite ?? 'N/A'}</TableBodyCell>
+                                            <TableBodyCell>{leader?.annee_de_naissance ?? 'N/A'}</TableBodyCell>
+                                            <TableBodyCell>/</TableBodyCell>
+                                        {:else}
+                                            <TableBodyCell>{leader?.denomination ?? 'N/A'}</TableBodyCell>
+                                            <TableBodyCell>{leader?.qualite ?? 'N/A'}</TableBodyCell>
+                                            <TableBodyCell>/</TableBodyCell>
+                                            <TableBodyCell>{leader?.siren ?? 'N/A'}</TableBodyCell>
+                                        {/if}
+                                    </TableBodyRow>
+                                {/each}
+                            </TableBody>
+                        </Table>
                     </AccordionItem>
-                </Accordion>
-            </Card>
-        </div>
-    </div>
-    <div class="relative mx-6 lg:mx-12 mb-3 transition-all duration-300 ease-in-out">
-        <Accordion class="w-full transition-all duration-300 ease-in-out">
-            {#if company?.dirigeants && company.dirigeants.length > 0}
-                <AccordionItem>
-                    <div slot="header">Détails sur {company.dirigeants.length > 1 ? 'les' : 'le/la'}
-                        dirigeant{company.dirigeants.length > 1 ? 's' : '(e)'}</div>
-                    <Table shadow>
-                        <TableHead>
-                            <TableHeadCell>Type</TableHeadCell>
-                            <TableHeadCell>Dénomination / Nom - Prénom</TableHeadCell>
-                            <TableHeadCell>Qualité</TableHeadCell>
-                            <TableHeadCell>Date de naissance</TableHeadCell>
-                            <TableHeadCell>SIREN</TableHeadCell>
-                        </TableHead>
-                        <TableBody class="divide-y">
-                            {#each company.dirigeants as leader}
-                                <TableBodyRow>
-                                    <TableBodyCell>{leader?.type_dirigeant?.split(' ')?.map(e => e.at(0))?.join('')?.toUpperCase()}</TableBodyCell>
-                                    {#if isPhysicalPerson(leader)}
-                                        <TableBodyCell>{leader?.nom ?? 'N/A'} {leader?.prenoms?.toUpperCase() ?? 'N/A'}</TableBodyCell>
-                                        <TableBodyCell>{leader?.qualite ?? 'N/A'}</TableBodyCell>
-                                        <TableBodyCell>{leader?.annee_de_naissance ?? 'N/A'}</TableBodyCell>
-                                        <TableBodyCell>/</TableBodyCell>
-                                    {:else}
-                                        <TableBodyCell>{leader?.denomination ?? 'N/A'}</TableBodyCell>
-                                        <TableBodyCell>{leader?.qualite ?? 'N/A'}</TableBodyCell>
-                                        <TableBodyCell>/</TableBodyCell>
-                                        <TableBodyCell>{leader?.siren ?? 'N/A'}</TableBodyCell>
-                                    {/if}
-                                </TableBodyRow>
-                            {/each}
-                        </TableBody>
-                    </Table>
-                </AccordionItem>
-            {:else}
-                <AccordionItem class>
-                    <div slot="header">Aucune information sur la/le(s) dirigeant(e/s)</div>
-                    <Alert shadow color="red">
-                        <span slot="icon"><InfoSvg></InfoSvg></span>
-                        <span class="font-medium">Dirigeant(s) inconnu(e/s)</span>, le <Kbd
-                            class="px-2.5 py-1.5">score</Kbd> de
-                        l'entreprise est affecté.
-                    </Alert>
-                </AccordionItem>
-            {/if}
+                {:else}
+                    <AccordionItem class>
+                        <div slot="header">Aucune information sur la/le(s) dirigeant(e/s)</div>
+                        <Alert shadow color="red">
+                            <span slot="icon"><InfoSvg className="h-4 w-4"></InfoSvg></span>
+                            <p class="text-start">
+                                <span class="-ml-1 font-medium">Dirigeant(s) inconnu(e/s)</span>, le <Kbd
+                                    class="px-2 py-1 max-sm:mt-1">score</Kbd> de l'entreprise est affecté.
+                            </p>
+                        </Alert>
+                    </AccordionItem>
+                {/if}
 
-            {#if company?.matching_etablisssements && company.matching_etablisssements.length > 0}
-                <AccordionItem>
-                    <div slot="header">Détails sur le{company.dirigeants.length > 1 ? 's' : ''}
-                        dirigeant{company.dirigeants.length > 1 ? 's' : ''}</div>
-                    <Table shadow>
-                        <TableHead>
-                            <TableHeadCell>Type</TableHeadCell>
-                            <TableHeadCell>Dénomination / Nom - Prénom</TableHeadCell>
-                            <TableHeadCell>Qualité</TableHeadCell>
-                            <TableHeadCell>Date de naissance</TableHeadCell>
-                            <TableHeadCell>SIREN</TableHeadCell>
-                        </TableHead>
-                        <TableBody class="divide-y">
-                            {#each company.dirigeants as leader}
-                                <TableBodyRow>
-                                    <TableBodyCell>{leader?.type_dirigeant?.split(' ')?.map(e => e.at(0))?.join('')?.toUpperCase()}</TableBodyCell>
-                                    {#if isPhysicalPerson(leader)}
-                                        <TableBodyCell>{leader?.nom ?? 'N/A'} {leader?.prenoms?.toUpperCase() ?? 'N/A'}</TableBodyCell>
-                                        <TableBodyCell>{leader?.qualite ?? 'N/A'}</TableBodyCell>
-                                        <TableBodyCell>{leader?.annee_de_naissance ?? 'N/A'}</TableBodyCell>
-                                        <TableBodyCell>/</TableBodyCell>
-                                    {:else}
-                                        <TableBodyCell>{leader?.denomination ?? 'N/A'}</TableBodyCell>
-                                        <TableBodyCell>{leader?.qualite ?? 'N/A'}</TableBodyCell>
-                                        <TableBodyCell>/</TableBodyCell>
-                                        <TableBodyCell>{leader?.siren ?? 'N/A'}</TableBodyCell>
-                                    {/if}
-                                </TableBodyRow>
-                            {/each}
-                        </TableBody>
-                    </Table>
-                </AccordionItem>
-            {:else}
-                <AccordionItem>
-                    <div slot="header">Aucune information sur un/des établissement(s) lié</div>
-                    <Alert shadow color="red">
-                        <span slot="icon"><InfoSvg></InfoSvg></span>
-                        <span class="font-medium">Établissement(s) lié inconnu(s)</span>, le <Kbd
-                            class="px-2.5 py-1.5">score</Kbd> de
-                        l'entreprise est affecté.
-                    </Alert>
-                </AccordionItem>
-            {/if}
-        </Accordion>
-        <Badge class="my-3 drop-shadow-md" color="gray">
-            <ClockSvg className="w-3 h-3 mr-1.5"></ClockSvg>
-            Dernière modification {getDateFormat(company.date_mise_a_jour)}
-        </Badge>
-    </div>
+                {#if company?.matching_etablisssements && company.matching_etablisssements.length > 0}
+                    <AccordionItem>
+                        <div slot="header">Détails sur le{company.dirigeants.length > 1 ? 's' : ''}
+                            dirigeant{company.dirigeants.length > 1 ? 's' : ''}</div>
+                        <Table shadow>
+                            <TableHead>
+                                <TableHeadCell>Type</TableHeadCell>
+                                <TableHeadCell>Dénomination / Nom - Prénom</TableHeadCell>
+                                <TableHeadCell>Qualité</TableHeadCell>
+                                <TableHeadCell>Date de naissance</TableHeadCell>
+                                <TableHeadCell>SIREN</TableHeadCell>
+                            </TableHead>
+                            <TableBody class="divide-y">
+                                {#each company.dirigeants as leader}
+                                    <TableBodyRow>
+                                        <TableBodyCell>{leader?.type_dirigeant?.split(' ')?.map(e => e.at(0))?.join('')?.toUpperCase()}</TableBodyCell>
+                                        {#if isPhysicalPerson(leader)}
+                                            <TableBodyCell>{leader?.nom ?? 'N/A'} {leader?.prenoms?.toUpperCase() ?? 'N/A'}</TableBodyCell>
+                                            <TableBodyCell>{leader?.qualite ?? 'N/A'}</TableBodyCell>
+                                            <TableBodyCell>{leader?.annee_de_naissance ?? 'N/A'}</TableBodyCell>
+                                            <TableBodyCell>/</TableBodyCell>
+                                        {:else}
+                                            <TableBodyCell>{leader?.denomination ?? 'N/A'}</TableBodyCell>
+                                            <TableBodyCell>{leader?.qualite ?? 'N/A'}</TableBodyCell>
+                                            <TableBodyCell>/</TableBodyCell>
+                                            <TableBodyCell>{leader?.siren ?? 'N/A'}</TableBodyCell>
+                                        {/if}
+                                    </TableBodyRow>
+                                {/each}
+                            </TableBody>
+                        </Table>
+                    </AccordionItem>
+                {:else}
+                    <AccordionItem>
+                        <div slot="header">Aucune information sur un/des établissement(s) lié</div>
+                        <Alert shadow color="red">
+                            <span slot="icon"><InfoSvg className="h-4 w-4"></InfoSvg></span>
+                            <p class="text-start">
+                                <span class="-ml-1 font-medium">Établissement(s) lié inconnu(s)</span>, le <Kbd
+                                    class="px-2 py-1 max-sm:mt-1">score</Kbd> de l'entreprise est affecté.
+                            </p>
+                        </Alert>
+                    </AccordionItem>
+                {/if}
+            </Accordion>
+        </article>
+        <article>
+            <Badge class="my-3 drop-shadow-md" color="gray">
+                <ClockSvg className="w-3 h-3 mr-1.5"></ClockSvg>
+                Dernière modification {getDateFormat(company.date_mise_a_jour)}
+            </Badge>
+        </article>
+    </section>
 {/if}
 
 {#if isFetch}

@@ -1,6 +1,6 @@
 import {dev} from '$app/environment';
 import {error} from '@sveltejs/kit';
-import type {IApe} from '$libs/company/Company';
+import type {APE_N5} from "french-company-types";
 
 /** @type {import('./$types').RequestHandler} */
 export async function GET({url, fetch}: { url: URL, fetch: any }) {
@@ -8,10 +8,10 @@ export async function GET({url, fetch}: { url: URL, fetch: any }) {
 
     if (!code || code.length !== 6) throw error(400, {message: "Error 400 : Bad request"})
 
-    let find: IApe[] | undefined
+    let find: APE_N5[] | undefined
 
     try {
-        const response: Response = await fetch("/ape.min.json")
+        const response: Response = await fetch("/ape/ape_n5.all.min.json")
         find = await response.json()
     } catch (reason: any) {
         if (dev) console.log(reason)
@@ -20,7 +20,7 @@ export async function GET({url, fetch}: { url: URL, fetch: any }) {
 
     if (!find) throw error(404, {message: "Error 404 : Not found"})
 
-    const found: IApe | undefined = find.find((value: IApe) => value.n5_code?.toLowerCase() === code.toLowerCase())
+    const found: APE_N5 | undefined = find.find((value: APE_N5) => value.code?.toLowerCase() === code.toLowerCase())
 
     if (!found) throw error(404, {message: "Error 404 : Not found"})
 

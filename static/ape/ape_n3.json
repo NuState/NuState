@@ -1,0 +1,1090 @@
+[
+  {
+    "code": "01.1",
+    "label": "Cultures non permanentes"
+  },
+  {
+    "code": "01.2",
+    "label": "Cultures permanentes"
+  },
+  {
+    "code": "01.3",
+    "label": "Reproduction de plantes"
+  },
+  {
+    "code": "01.4",
+    "label": "Production animale"
+  },
+  {
+    "code": "01.5",
+    "label": "Culture et élevage associés"
+  },
+  {
+    "code": "01.6",
+    "label": "Activités de soutien à l'agriculture et traitement primaire des récoltes"
+  },
+  {
+    "code": "01.7",
+    "label": "Chasse, piégeage et services annexes"
+  },
+  {
+    "code": "02.1",
+    "label": "Sylviculture et autres activités forestières"
+  },
+  {
+    "code": "02.2",
+    "label": "Exploitation forestière"
+  },
+  {
+    "code": "02.3",
+    "label": "Récolte de produits forestiers non ligneux poussant à l'état sauvage"
+  },
+  {
+    "code": "02.4",
+    "label": "Services de soutien à l'exploitation forestière"
+  },
+  {
+    "code": "03.1",
+    "label": "Pêche"
+  },
+  {
+    "code": "03.2",
+    "label": "Aquaculture"
+  },
+  {
+    "code": "05.1",
+    "label": "Extraction de houille"
+  },
+  {
+    "code": "05.2",
+    "label": "Extraction de lignite"
+  },
+  {
+    "code": "06.1",
+    "label": "Extraction de pétrole brut"
+  },
+  {
+    "code": "06.2",
+    "label": "Extraction de gaz naturel"
+  },
+  {
+    "code": "07.1",
+    "label": "Extraction de minerais de fer"
+  },
+  {
+    "code": "07.2",
+    "label": "Extraction de minerais de métaux non ferreux"
+  },
+  {
+    "code": "08.1",
+    "label": "Extraction de pierres, de sables et d'argiles"
+  },
+  {
+    "code": "08.9",
+    "label": "Activités extractives n.c.a."
+  },
+  {
+    "code": "09.1",
+    "label": "Activités de soutien à l'extraction d'hydrocarbures"
+  },
+  {
+    "code": "09.9",
+    "label": "Activités de soutien aux autres industries extractives"
+  },
+  {
+    "code": "10.1",
+    "label": "Transformation et conservation de la viande et préparation de produits à base de viande"
+  },
+  {
+    "code": "10.2",
+    "label": "Transformation et conservation de poisson, de crustacés et de mollusques"
+  },
+  {
+    "code": "10.3",
+    "label": "Transformation et conservation de fruits et légumes"
+  },
+  {
+    "code": "10.4",
+    "label": "Fabrication d'huiles et graisses végétales et animales"
+  },
+  {
+    "code": "10.5",
+    "label": "Fabrication de produits laitiers"
+  },
+  {
+    "code": "10.6",
+    "label": "Travail des grains ; fabrication de produits amylacés"
+  },
+  {
+    "code": "10.7",
+    "label": "Fabrication de produits de boulangerie-pâtisserie et de pâtes alimentaires"
+  },
+  {
+    "code": "10.8",
+    "label": "Fabrication d'autres produits alimentaires"
+  },
+  {
+    "code": "10.9",
+    "label": "Fabrication d'aliments pour animaux"
+  },
+  {
+    "code": "11",
+    "label": "Fabrication de boissons"
+  },
+  {
+    "code": "12",
+    "label": "Fabrication de produits à base de tabac"
+  },
+  {
+    "code": "13.1",
+    "label": "Préparation de fibres textiles et filature"
+  },
+  {
+    "code": "13.2",
+    "label": "Tissage"
+  },
+  {
+    "code": "13.3",
+    "label": "Ennoblissement textile"
+  },
+  {
+    "code": "13.9",
+    "label": "Fabrication d'autres textiles"
+  },
+  {
+    "code": "14.1",
+    "label": "Fabrication de vêtements, autres qu'en fourrure"
+  },
+  {
+    "code": "14.2",
+    "label": "Fabrication d'articles en fourrure"
+  },
+  {
+    "code": "14.3",
+    "label": "Fabrication d'articles à mailles"
+  },
+  {
+    "code": "15.1",
+    "label": "Apprêt et tannage des cuirs ; préparation et teinture des fourrures ; fabrication d'articles de voyage, de maroquinerie et de sellerie"
+  },
+  {
+    "code": "15.2",
+    "label": "Fabrication de chaussures"
+  },
+  {
+    "code": "16.1",
+    "label": "Sciage et rabotage du bois"
+  },
+  {
+    "code": "16.2",
+    "label": "Fabrication d'articles en bois, liège, vannerie et sparterie"
+  },
+  {
+    "code": "17.1",
+    "label": "Fabrication de pâte à papier, de papier et de carton"
+  },
+  {
+    "code": "17.2",
+    "label": "Fabrication d'articles en papier ou en carton"
+  },
+  {
+    "code": "18.1",
+    "label": "Imprimerie et services annexes"
+  },
+  {
+    "code": "18.2",
+    "label": "Reproduction d'enregistrements"
+  },
+  {
+    "code": "19.1",
+    "label": "Cokéfaction"
+  },
+  {
+    "code": "19.2",
+    "label": "Raffinage du pétrole"
+  },
+  {
+    "code": "20.1",
+    "label": "Fabrication de produits chimiques de base, de produits azotés et d'engrais, de matières plastiques de base et de caoutchouc synthétique"
+  },
+  {
+    "code": "20.2",
+    "label": "Fabrication de pesticides et d'autres produits agrochimiques"
+  },
+  {
+    "code": "20.3",
+    "label": "Fabrication de peintures, vernis, encres et mastics"
+  },
+  {
+    "code": "20.4",
+    "label": "Fabrication de savons, de produits d'entretien et de parfums"
+  },
+  {
+    "code": "20.5",
+    "label": "Fabrication d'autres produits chimiques"
+  },
+  {
+    "code": "20.6",
+    "label": "Fabrication de fibres artificielles ou synthétiques"
+  },
+  {
+    "code": "21.1",
+    "label": "Fabrication de produits pharmaceutiques de base"
+  },
+  {
+    "code": "21.2",
+    "label": "Fabrication de préparations pharmaceutiques"
+  },
+  {
+    "code": "22.1",
+    "label": "Fabrication de produits en caoutchouc"
+  },
+  {
+    "code": "22.2",
+    "label": "Fabrication de produits en plastique"
+  },
+  {
+    "code": "23.1",
+    "label": "Fabrication de verre et d'articles en verre"
+  },
+  {
+    "code": "23.2",
+    "label": "Fabrication de produits réfractaires"
+  },
+  {
+    "code": "23.3",
+    "label": "Fabrication de matériaux de construction en terre cuite"
+  },
+  {
+    "code": "23.4",
+    "label": "Fabrication d'autres produits en céramique et en porcelaine"
+  },
+  {
+    "code": "23.5",
+    "label": "Fabrication de ciment, chaux et plâtre"
+  },
+  {
+    "code": "23.6",
+    "label": "Fabrication d'ouvrages en béton, en ciment ou en plâtre"
+  },
+  {
+    "code": "23.7",
+    "label": "Taille, façonnage et finissage de pierres"
+  },
+  {
+    "code": "23.9",
+    "label": "Fabrication de produits abrasifs et de produits minéraux non métalliques n.c.a."
+  },
+  {
+    "code": "24.1",
+    "label": "Sidérurgie"
+  },
+  {
+    "code": "24.2",
+    "label": "Fabrication de tubes, tuyaux, profilés creux et accessoires correspondants en acier"
+  },
+  {
+    "code": "24.3",
+    "label": "Fabrication d'autres produits de première transformation de l'acier"
+  },
+  {
+    "code": "24.4",
+    "label": "Production de métaux précieux et d'autres métaux non ferreux"
+  },
+  {
+    "code": "24.5",
+    "label": "Fonderie"
+  },
+  {
+    "code": "25.1",
+    "label": "Fabrication d'éléments en métal pour la construction"
+  },
+  {
+    "code": "25.2",
+    "label": "Fabrication de réservoirs, citernes et conteneurs métalliques"
+  },
+  {
+    "code": "25.3",
+    "label": "Fabrication de générateurs de vapeur, à l'exception des chaudières pour le chauffage central"
+  },
+  {
+    "code": "25.4",
+    "label": "Fabrication d'armes et de munitions"
+  },
+  {
+    "code": "25.5",
+    "label": "Forge, emboutissage, estampage ; métallurgie des poudres"
+  },
+  {
+    "code": "25.6",
+    "label": "Traitement et revêtement des métaux ; usinage"
+  },
+  {
+    "code": "25.7",
+    "label": "Fabrication de coutellerie, d'outillage et de quincaillerie"
+  },
+  {
+    "code": "25.9",
+    "label": "Fabrication d'autres ouvrages en métaux"
+  },
+  {
+    "code": "26.1",
+    "label": "Fabrication de composants et cartes électroniques"
+  },
+  {
+    "code": "26.2",
+    "label": "Fabrication d'ordinateurs et d'équipements périphériques"
+  },
+  {
+    "code": "26.3",
+    "label": "Fabrication d'équipements de communication"
+  },
+  {
+    "code": "26.4",
+    "label": "Fabrication de produits électroniques grand public"
+  },
+  {
+    "code": "26.5",
+    "label": "Fabrication d'instruments et d'appareils de mesure, d'essai et de navigation ; horlogerie"
+  },
+  {
+    "code": "26.6",
+    "label": "Fabrication d'équipements d'irradiation médicale, d'équipements électromédicaux et électrothérapeutiques"
+  },
+  {
+    "code": "26.7",
+    "label": "Fabrication de matériels optique et photographique"
+  },
+  {
+    "code": "26.8",
+    "label": "Fabrication de supports magnétiques et optiques"
+  },
+  {
+    "code": "27.1",
+    "label": "Fabrication de moteurs, génératrices et transformateurs électriques et de matériel de distribution et de commande électrique"
+  },
+  {
+    "code": "27.2",
+    "label": "Fabrication de piles et d'accumulateurs électriques"
+  },
+  {
+    "code": "27.3",
+    "label": "Fabrication de fils et câbles et de matériel d'installation électrique"
+  },
+  {
+    "code": "27.4",
+    "label": "Fabrication d'appareils d'éclairage électrique"
+  },
+  {
+    "code": "27.5",
+    "label": "Fabrication d'appareils ménagers"
+  },
+  {
+    "code": "27.9",
+    "label": "Fabrication d'autres matériels électriques"
+  },
+  {
+    "code": "28.1",
+    "label": "Fabrication de machines d'usage général"
+  },
+  {
+    "code": "28.2",
+    "label": "Fabrication d'autres machines d'usage général"
+  },
+  {
+    "code": "28.3",
+    "label": "Fabrication de machines agricoles et forestières"
+  },
+  {
+    "code": "28.4",
+    "label": "Fabrication de machines de formage des métaux et de machines-outils"
+  },
+  {
+    "code": "28.9",
+    "label": "Fabrication d'autres machines d'usage spécifique"
+  },
+  {
+    "code": "29.1",
+    "label": "Construction de véhicules automobiles"
+  },
+  {
+    "code": "29.2",
+    "label": "Fabrication de carrosseries et remorques"
+  },
+  {
+    "code": "29.3",
+    "label": "Fabrication d'équipements automobiles"
+  },
+  {
+    "code": "30.1",
+    "label": "Construction navale"
+  },
+  {
+    "code": "30.2",
+    "label": "Construction de locomotives et d'autre matériel ferroviaire roulant"
+  },
+  {
+    "code": "30.3",
+    "label": "Construction aéronautique et spatiale"
+  },
+  {
+    "code": "30.4",
+    "label": "Construction de véhicules militaires de combat"
+  },
+  {
+    "code": "30.9",
+    "label": "Fabrication de matériels de transport n.c.a."
+  },
+  {
+    "code": "31",
+    "label": "Fabrication de meubles"
+  },
+  {
+    "code": "32.1",
+    "label": "Fabrication d'articles de joaillerie, bijouterie et articles similaires"
+  },
+  {
+    "code": "32.2",
+    "label": "Fabrication d'instruments de musique"
+  },
+  {
+    "code": "32.3",
+    "label": "Fabrication d'articles de sport"
+  },
+  {
+    "code": "32.4",
+    "label": "Fabrication de jeux et jouets"
+  },
+  {
+    "code": "32.5",
+    "label": "Fabrication d'instruments et de fournitures à usage médical et dentaire"
+  },
+  {
+    "code": "32.9",
+    "label": "Activités manufacturières n.c.a."
+  },
+  {
+    "code": "33.1",
+    "label": "Réparation d'ouvrages en métaux, de machines et d'équipements"
+  },
+  {
+    "code": "33.2",
+    "label": "Installation de machines et d'équipements industriels"
+  },
+  {
+    "code": "35.1",
+    "label": "Production, transport et distribution d'électricité"
+  },
+  {
+    "code": "35.2",
+    "label": "Production et distribution de combustibles gazeux"
+  },
+  {
+    "code": "35.3",
+    "label": "Production et distribution de vapeur et d'air conditionné"
+  },
+  {
+    "code": "36",
+    "label": "Captage, traitement et distribution d'eau"
+  },
+  {
+    "code": "37",
+    "label": "Collecte et traitement des eaux usées"
+  },
+  {
+    "code": "38.1",
+    "label": "Collecte des déchets"
+  },
+  {
+    "code": "38.2",
+    "label": "Traitement et élimination des déchets"
+  },
+  {
+    "code": "38.3",
+    "label": "Récupération"
+  },
+  {
+    "code": "39",
+    "label": "Dépollution et autres services de gestion des déchets"
+  },
+  {
+    "code": "41.1",
+    "label": "Promotion immobilière"
+  },
+  {
+    "code": "41.2",
+    "label": "Construction de bâtiments résidentiels et non résidentiels"
+  },
+  {
+    "code": "42.1",
+    "label": "Construction de routes et de voies ferrées"
+  },
+  {
+    "code": "42.2",
+    "label": "Construction de réseaux et de lignes"
+  },
+  {
+    "code": "42.9",
+    "label": "Construction d'autres ouvrages de génie civil"
+  },
+  {
+    "code": "43.1",
+    "label": "Démolition et préparation des sites"
+  },
+  {
+    "code": "43.2",
+    "label": "Travaux d'installation électrique, plomberie et autres travaux d'installation"
+  },
+  {
+    "code": "43.3",
+    "label": "Travaux de finition"
+  },
+  {
+    "code": "43.9",
+    "label": "Autres travaux de construction spécialisés"
+  },
+  {
+    "code": "45.1",
+    "label": "Commerce de véhicules automobiles"
+  },
+  {
+    "code": "45.2",
+    "label": "Entretien et réparation de véhicules automobiles"
+  },
+  {
+    "code": "45.3",
+    "label": "Commerce d'équipements automobiles"
+  },
+  {
+    "code": "45.4",
+    "label": "Commerce et réparation de motocycles"
+  },
+  {
+    "code": "46.1",
+    "label": "Intermédiaires du commerce de gros"
+  },
+  {
+    "code": "46.2",
+    "label": "Commerce de gros de produits agricoles bruts et d'animaux vivants"
+  },
+  {
+    "code": "46.3",
+    "label": "Commerce de gros de produits alimentaires, de boissons et de tabac"
+  },
+  {
+    "code": "46.4",
+    "label": "Commerce de gros de biens domestiques"
+  },
+  {
+    "code": "46.5",
+    "label": "Commerce de gros d'équipements de l'information et de la communication"
+  },
+  {
+    "code": "46.6",
+    "label": "Commerce de gros d'autres équipements industriels"
+  },
+  {
+    "code": "46.7",
+    "label": "Autres commerces de gros spécialisés"
+  },
+  {
+    "code": "46.9",
+    "label": "Commerce de gros non spécialisé"
+  },
+  {
+    "code": "47.1",
+    "label": "Commerce de détail en magasin non spécialisé"
+  },
+  {
+    "code": "47.2",
+    "label": "Commerce de détail alimentaire en magasin spécialisé"
+  },
+  {
+    "code": "47.3",
+    "label": "Commerce de détail de carburants en magasin spécialisé"
+  },
+  {
+    "code": "47.4",
+    "label": "Commerce de détail d'équipements de l'information et de la communication en magasin spécialisé"
+  },
+  {
+    "code": "47.5",
+    "label": "Commerce de détail d'autres équipements du foyer en magasin spécialisé"
+  },
+  {
+    "code": "47.6",
+    "label": "Commerce de détail de biens culturels et de loisirs en magasin spécialisé"
+  },
+  {
+    "code": "47.7",
+    "label": "Autres commerces de détail en magasin spécialisé"
+  },
+  {
+    "code": "47.8",
+    "label": "Commerce de détail sur éventaires et marchés"
+  },
+  {
+    "code": "47.9",
+    "label": "Commerce de détail hors magasin, éventaires ou marchés"
+  },
+  {
+    "code": "49.1",
+    "label": "Transport ferroviaire interurbain de voyageurs"
+  },
+  {
+    "code": "49.2",
+    "label": "Transports ferroviaires de fret"
+  },
+  {
+    "code": "49.3",
+    "label": "Autres transports terrestres de voyageurs"
+  },
+  {
+    "code": "49.4",
+    "label": "Transports routiers de fret et services de déménagement"
+  },
+  {
+    "code": "49.5",
+    "label": "Transports par conduites"
+  },
+  {
+    "code": "50.1",
+    "label": "Transports maritimes et côtiers de passagers"
+  },
+  {
+    "code": "50.2",
+    "label": "Transports maritimes et côtiers de fret"
+  },
+  {
+    "code": "50.3",
+    "label": "Transports fluviaux de passagers"
+  },
+  {
+    "code": "50.4",
+    "label": "Transports fluviaux de fret"
+  },
+  {
+    "code": "51.1",
+    "label": "Transports aériens de passagers"
+  },
+  {
+    "code": "51.2",
+    "label": "Transports aériens de fret et transports spatiaux"
+  },
+  {
+    "code": "52.1",
+    "label": "Entreposage et stockage"
+  },
+  {
+    "code": "52.2",
+    "label": "Services auxiliaires des transports"
+  },
+  {
+    "code": "53.1",
+    "label": "Activités de poste dans le cadre d'une obligation de service universel"
+  },
+  {
+    "code": "53.2",
+    "label": "Autres activités de poste et de courrier"
+  },
+  {
+    "code": "55.1",
+    "label": "Hôtels et hébergement similaire"
+  },
+  {
+    "code": "55.2",
+    "label": "Hébergement touristique et autre hébergement de courte durée"
+  },
+  {
+    "code": "55.3",
+    "label": "Terrains de camping et parcs pour caravanes ou véhicules de loisirs"
+  },
+  {
+    "code": "55.9",
+    "label": "Autres hébergements"
+  },
+  {
+    "code": "56.1",
+    "label": "Restaurants et services de restauration mobile"
+  },
+  {
+    "code": "56.2",
+    "label": "Traiteurs et autres services de restauration"
+  },
+  {
+    "code": "56.3",
+    "label": "Débits de boissons"
+  },
+  {
+    "code": "58.1",
+    "label": "Édition de livres et périodiques et autres activités d'édition"
+  },
+  {
+    "code": "58.2",
+    "label": "Édition de logiciels"
+  },
+  {
+    "code": "59.1",
+    "label": "Activités cinématographiques, vidéo et de télévision"
+  },
+  {
+    "code": "59.2",
+    "label": "Enregistrement sonore et édition musicale"
+  },
+  {
+    "code": "60.1",
+    "label": "Édition et diffusion de programmes radio"
+  },
+  {
+    "code": "60.2",
+    "label": "Programmation de télévision et télédiffusion"
+  },
+  {
+    "code": "61.1",
+    "label": "Télécommunications filaires"
+  },
+  {
+    "code": "61.2",
+    "label": "Télécommunications sans fil"
+  },
+  {
+    "code": "61.3",
+    "label": "Télécommunications par satellite"
+  },
+  {
+    "code": "61.9",
+    "label": "Autres activités de télécommunication"
+  },
+  {
+    "code": "62",
+    "label": "Programmation, conseil et autres activités informatiques"
+  },
+  {
+    "code": "63.1",
+    "label": "Traitement de données, hébergement et activités connexes ; portails Internet"
+  },
+  {
+    "code": "63.9",
+    "label": "Autres services d'information"
+  },
+  {
+    "code": "64.1",
+    "label": "Intermédiation monétaire"
+  },
+  {
+    "code": "64.2",
+    "label": "Activités des sociétés holding"
+  },
+  {
+    "code": "64.3",
+    "label": "Fonds de placement et entités financières similaires"
+  },
+  {
+    "code": "64.9",
+    "label": "Autres activités des services financiers, hors assurance et caisses de retraite"
+  },
+  {
+    "code": "65.1",
+    "label": "Assurance"
+  },
+  {
+    "code": "65.2",
+    "label": "Réassurance"
+  },
+  {
+    "code": "65.3",
+    "label": "Caisses de retraite"
+  },
+  {
+    "code": "66.1",
+    "label": "Activités auxiliaires de services financiers, hors assurance et caisses de retraite"
+  },
+  {
+    "code": "66.2",
+    "label": "Activités auxiliaires d'assurance et de caisses de retraite"
+  },
+  {
+    "code": "66.3",
+    "label": "Gestion de fonds"
+  },
+  {
+    "code": "68.1",
+    "label": "Activités des marchands de biens immobiliers"
+  },
+  {
+    "code": "68.2",
+    "label": "Location et exploitation de biens immobiliers propres ou loués"
+  },
+  {
+    "code": "68.3",
+    "label": "Activités immobilières pour compte de tiers"
+  },
+  {
+    "code": "69.1",
+    "label": "Activités juridiques"
+  },
+  {
+    "code": "69.2",
+    "label": "Activités comptables"
+  },
+  {
+    "code": "70.1",
+    "label": "Activités des sièges sociaux"
+  },
+  {
+    "code": "70.2",
+    "label": "Conseil de gestion"
+  },
+  {
+    "code": "71.1",
+    "label": "Activités d'architecture et d'ingénierie"
+  },
+  {
+    "code": "71.2",
+    "label": "Activités de contrôle et analyses techniques"
+  },
+  {
+    "code": "72.1",
+    "label": "Recherche-développement en sciences physiques et naturelles"
+  },
+  {
+    "code": "72.2",
+    "label": "Recherche-développement en sciences humaines et sociales"
+  },
+  {
+    "code": "73.1",
+    "label": "Publicité"
+  },
+  {
+    "code": "73.2",
+    "label": "Études de marché et sondages"
+  },
+  {
+    "code": "74.1",
+    "label": "Activités spécialisées de design"
+  },
+  {
+    "code": "74.2",
+    "label": "Activités photographiques"
+  },
+  {
+    "code": "74.3",
+    "label": "Traduction et interprétation"
+  },
+  {
+    "code": "74.9",
+    "label": "Autres activités spécialisées, scientifiques et techniques n.c.a."
+  },
+  {
+    "code": "75",
+    "label": "Activités vétérinaires"
+  },
+  {
+    "code": "77.1",
+    "label": "Location et location-bail de véhicules automobiles"
+  },
+  {
+    "code": "77.2",
+    "label": "Location et location-bail de biens personnels et domestiques"
+  },
+  {
+    "code": "77.3",
+    "label": "Location et location-bail d'autres machines, équipements et biens"
+  },
+  {
+    "code": "77.4",
+    "label": "Location-bail de propriété intellectuelle et de produits similaires, à l'exception des œuvres soumises à copyright"
+  },
+  {
+    "code": "78.1",
+    "label": "Activités des agences de placement de main-d'œuvre"
+  },
+  {
+    "code": "78.2",
+    "label": "Activités des agences de travail temporaire"
+  },
+  {
+    "code": "78.3",
+    "label": "Autre mise à disposition de ressources humaines"
+  },
+  {
+    "code": "79.1",
+    "label": "Activités des agences de voyage et voyagistes"
+  },
+  {
+    "code": "79.9",
+    "label": "Autres services de réservation et activités connexes"
+  },
+  {
+    "code": "80.1",
+    "label": "Activités de sécurité privée"
+  },
+  {
+    "code": "80.2",
+    "label": "Activités liées aux systèmes de sécurité"
+  },
+  {
+    "code": "80.3",
+    "label": "Activités d'enquête"
+  },
+  {
+    "code": "81.1",
+    "label": "Activités combinées de soutien lié aux bâtiments"
+  },
+  {
+    "code": "81.2",
+    "label": "Activités de nettoyage"
+  },
+  {
+    "code": "81.3",
+    "label": "Services d'aménagement paysager"
+  },
+  {
+    "code": "82.1",
+    "label": "Activités administratives"
+  },
+  {
+    "code": "82.2",
+    "label": "Activités de centres d'appels"
+  },
+  {
+    "code": "82.3",
+    "label": "Organisation de salons professionnels et congrès"
+  },
+  {
+    "code": "82.9",
+    "label": "Activités de soutien aux entreprises n.c.a."
+  },
+  {
+    "code": "84.1",
+    "label": "Administration générale, économique et sociale"
+  },
+  {
+    "code": "84.2",
+    "label": "Services de prérogative publique"
+  },
+  {
+    "code": "84.3",
+    "label": "Sécurité sociale obligatoire"
+  },
+  {
+    "code": "85.1",
+    "label": "Enseignement pré-primaire"
+  },
+  {
+    "code": "85.2",
+    "label": "Enseignement primaire"
+  },
+  {
+    "code": "85.3",
+    "label": "Enseignement secondaire"
+  },
+  {
+    "code": "85.4",
+    "label": "Enseignement supérieur et post-secondaire non supérieur"
+  },
+  {
+    "code": "85.5",
+    "label": "Autres activités d'enseignement"
+  },
+  {
+    "code": "85.6",
+    "label": "Activités de soutien à l'enseignement"
+  },
+  {
+    "code": "86.1",
+    "label": "Activités hospitalières"
+  },
+  {
+    "code": "86.2",
+    "label": "Activité des médecins et des dentistes"
+  },
+  {
+    "code": "86.9",
+    "label": "Autres activités pour la santé humaine"
+  },
+  {
+    "code": "87.1",
+    "label": "Hébergement médicalisé"
+  },
+  {
+    "code": "87.2",
+    "label": "Hébergement social pour personnes handicapées mentales, malades mentales et toxicomanes"
+  },
+  {
+    "code": "87.3",
+    "label": "Hébergement social pour personnes âgées ou handicapées physiques"
+  },
+  {
+    "code": "87.9",
+    "label": "Autres activités d'hébergement social"
+  },
+  {
+    "code": "88.1",
+    "label": "Action sociale sans hébergement pour personnes âgées et pour personnes handicapées"
+  },
+  {
+    "code": "88.9",
+    "label": "Autre action sociale sans hébergement"
+  },
+  {
+    "code": "90",
+    "label": "Activités créatives, artistiques et de spectacle"
+  },
+  {
+    "code": "91",
+    "label": "Bibliothèques, archives, musées et autres activités culturelles"
+  },
+  {
+    "code": "92",
+    "label": "Organisation de jeux de hasard et d'argent"
+  },
+  {
+    "code": "93.1",
+    "label": "Activités liées au sport"
+  },
+  {
+    "code": "93.2",
+    "label": "Activités récréatives et de loisirs"
+  },
+  {
+    "code": "94.1",
+    "label": "Activités des organisations économiques, patronales et professionnelles"
+  },
+  {
+    "code": "94.2",
+    "label": "Activités des syndicats de salariés"
+  },
+  {
+    "code": "94.9",
+    "label": "Activités des autres organisations associatives"
+  },
+  {
+    "code": "95.1",
+    "label": "Réparation d'ordinateurs et d'équipements de communication"
+  },
+  {
+    "code": "95.2",
+    "label": "Réparation de biens personnels et domestiques"
+  },
+  {
+    "code": "96",
+    "label": "Autres services personnels"
+  },
+  {
+    "code": "97",
+    "label": "Activités des ménages en tant qu'employeurs de personnel domestique"
+  },
+  {
+    "code": "98.1",
+    "label": "Activités indifférenciées des ménages en tant que producteurs de biens pour usage propre"
+  },
+  {
+    "code": "98.2",
+    "label": "Activités indifférenciées des ménages en tant que producteurs de services pour usage propre"
+  },
+  {
+    "code": "99",
+    "label": "Activités des organisations et organismes extraterritoriaux"
+  }
+]

@@ -1,0 +1,158 @@
+[
+  {
+    "code": "00",
+    "label": "Organisme de placement collectif en valeurs mobilières sans personnalité morale"
+  },
+  {
+    "code": "10",
+    "label": "Entrepreneur individuel"
+  },
+  {
+    "code": "21",
+    "label": "Indivision"
+  },
+  {
+    "code": "22",
+    "label": "Société créée de fait"
+  },
+  {
+    "code": "23",
+    "label": "Société en participation"
+  },
+  {
+    "code": "24",
+    "label": "Fiducie "
+  },
+  {
+    "code": "27",
+    "label": "Paroisse hors zone concordataire"
+  },
+  {
+    "code": "28",
+    "label": "Assujetti unique à la TVA"
+  },
+  {
+    "code": "29",
+    "label": "Autre groupement de droit privé non doté de la personnalité morale"
+  },
+  {
+    "code": "31",
+    "label": "Personne morale de droit étranger, immatriculée au RCS (registre du commerce et des sociétés)"
+  },
+  {
+    "code": "32",
+    "label": "Personne morale de droit étranger, non immatriculée au RCS"
+  },
+  {
+    "code": "41",
+    "label": "Etablissement public ou régie à caractère industriel ou commercial"
+  },
+  {
+    "code": "51",
+    "label": "Société coopérative commerciale particulière"
+  },
+  {
+    "code": "52",
+    "label": "Société en nom collectif"
+  },
+  {
+    "code": "53",
+    "label": "Société en commandite"
+  },
+  {
+    "code": "54",
+    "label": "Société à responsabilité limitée (SARL)"
+  },
+  {
+    "code": "55",
+    "label": "Société anonyme à conseil d'administration"
+  },
+  {
+    "code": "56",
+    "label": "Société anonyme à directoire"
+  },
+  {
+    "code": "57",
+    "label": "Société par actions simplifiée"
+  },
+  {
+    "code": "58",
+    "label": "Société européenne "
+  },
+  {
+    "code": "61",
+    "label": "Caisse d'épargne et de prévoyance"
+  },
+  {
+    "code": "62",
+    "label": "Groupement d'intérêt économique"
+  },
+  {
+    "code": "63",
+    "label": "Société coopérative agricole"
+  },
+  {
+    "code": "64",
+    "label": "Société d'assurance mutuelle"
+  },
+  {
+    "code": "65",
+    "label": "Société civile"
+  },
+  {
+    "code": "69",
+    "label": "Autre personne morale de droit privé inscrite au registre du commerce et des sociétés"
+  },
+  {
+    "code": "71",
+    "label": "Administration de l'état"
+  },
+  {
+    "code": "72",
+    "label": "Collectivité territoriale"
+  },
+  {
+    "code": "73",
+    "label": "Etablissement public administratif"
+  },
+  {
+    "code": "74",
+    "label": "Autre personne morale de droit public administratif"
+  },
+  {
+    "code": "81",
+    "label": "Organisme gérant un régime de protection sociale à adhésion obligatoire"
+  },
+  {
+    "code": "82",
+    "label": "Organisme mutualiste"
+  },
+  {
+    "code": "83",
+    "label": "Comité d'entreprise"
+  },
+  {
+    "code": "84",
+    "label": "Organisme professionnel"
+  },
+  {
+    "code": "85",
+    "label": "Organisme de retraite à adhésion non obligatoire"
+  },
+  {
+    "code": "91",
+    "label": "Syndicat de propriétaires"
+  },
+  {
+    "code": "92",
+    "label": "Association loi 1901 ou assimilé"
+  },
+  {
+    "code": "93",
+    "label": "Fondation"
+  },
+  {
+    "code": "99",
+    "label": "Autre personne morale de droit privé"
+  }
+]
