@@ -14,7 +14,6 @@
         firebaseAnalytics = getAnalytics(firebaseApp)
         firebasePerformance = getPerformance(firebaseApp)
     }
-
 </script>
 
 <slot/>

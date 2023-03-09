@@ -1,7 +1,6 @@
 <script lang="ts">
     import {Button, DarkMode, Heading, Kbd, P, Timeline, TimelineItem} from "flowbite-svelte";
-    import ArrowRightSvg from "$components/svg/ArrowRightSvg.svelte";
-    import FooterComponent from "$components/FooterComponent.svelte";
+    import {ArrowRightSvg, FooterComponent} from "$components/public-api";
 </script>
 
 <svelte:head>
@@ -54,7 +53,6 @@
 </section>
 
 <FooterComponent></FooterComponent>
-
 
 <div class="absolute top-0 right-0 m-2">
     <DarkMode></DarkMode>

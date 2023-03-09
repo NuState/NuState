@@ -9,4 +9,7 @@ declare global {
     }
 }
 
-export {};
+export * from './libs/public-api'
+export * from './components/public-api'
+
+export {}

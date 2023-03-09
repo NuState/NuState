@@ -14,15 +14,15 @@
     } from "flowbite-svelte";
     import {page} from "$app/stores";
     import {dev} from "$app/environment";
-    import type {ICompany} from "$libs/company/Company";
-    import {formatSiret} from "$libs/utils/Utils";
-    import ArrowRightSvg from "$components/svg/ArrowRightSvg.svelte";
+    import {formatSiret} from "$libs/public-api";
+    import {ArrowRightSvg} from "$components/public-api";
+    import type {Company} from "french-company-types";
 
 
     let value: string | undefined
     let isError: boolean = false
     let buffer: any | undefined
-    let companies: ICompany[] = []
+    let companies: Company[] = []
 
     const getFilteredCompanies = () => {
         companies = []

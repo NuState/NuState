@@ -1,0 +1,42 @@
+[
+  {
+    "code": "0",
+    "label": "Organisme de placement collectif en valeurs mobilières sans personnalité morale"
+  },
+  {
+    "code": "1",
+    "label": "Entrepreneur individuel"
+  },
+  {
+    "code": "2",
+    "label": "Groupement de droit privé non doté de la personnalité morale"
+  },
+  {
+    "code": "3",
+    "label": "Personne morale de droit étranger"
+  },
+  {
+    "code": "4",
+    "label": "Personne morale de droit public soumise au droit commercial"
+  },
+  {
+    "code": "5",
+    "label": "Société commerciale"
+  },
+  {
+    "code": "6",
+    "label": "Autre personne morale immatriculée au RCS"
+  },
+  {
+    "code": "7",
+    "label": "Personne morale et organisme soumis au droit administratif"
+  },
+  {
+    "code": "8",
+    "label": "Organisme privé spécialisé"
+  },
+  {
+    "code": "9",
+    "label": "Groupement de droit privé"
+  }
+]

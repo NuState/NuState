@@ -1,6 +1,7 @@
 // noinspection SpellCheckingInspection
 
 export const environment = {
+    company_api_url: 'https://recherche-entreprises.api.gouv.fr/search?q=',
     firebaseConfig: {
         apiKey: 'AIzaSyAtl8J1h5cL7F3S_Zhr8feGsMK5_0Twn5Y',
         authDomain: 'nustate-c341b.firebaseapp.com',
