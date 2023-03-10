@@ -1,6 +1,20 @@
 <script lang="ts">
-    import {Button, DarkMode, Heading, Kbd, P, Timeline, TimelineItem} from "flowbite-svelte";
+    import {Button, DarkMode, Heading, P, Spinner, Timeline, TimelineItem} from "flowbite-svelte";
     import {ArrowRightSvg, FooterComponent} from "$components/public-api";
+    import {page} from "$app/stores";
+    import {onMount} from "svelte";
+    import {extract, type FeedData, type FeedEntry} from '@extractus/feed-extractor'
+
+    let rssEntries: FeedEntry[] = []
+
+    onMount(async () => {
+        const response: FeedData = (await extract($page.url.origin + '/rss', {descriptionMaxLen: (Number.MAX_SAFE_INTEGER)}))
+        console.log(response)
+        rssEntries = response.entries.map(e => {
+            e.description
+            return e
+        })
+    })
 </script>
 
 <svelte:head>
@@ -29,26 +43,38 @@
     </article>
 </section>
 
-<!-- TODO : Feature, link a RSS feed or BD -->
 <section class="mt-12 h-full flex flex-col items-center justify-center">
-    <article>
-        <Timeline>
-            <TimelineItem date="Features : Mars 2023" title="v1.0.0">
-                <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
-                    Début des lancements en <Kbd class="px-2.5 py-1.5 !bg-transparent">release</Kbd>
-                </p>
-            </TimelineItem>
-            <TimelineItem date="Mars 2023" title="v1.0.0-b">
-                <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
-                    Début des lancements en <Kbd class="px-2.5 py-1.5 !bg-transparent">bêta</Kbd>
-                </p>
-            </TimelineItem>
-            <TimelineItem date="07 Mars 2023" title="Commencement du projet...">
-                <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">
-                    Il faut bien un début à tout.
-                </p>
-            </TimelineItem>
-        </Timeline>
+    <article class="my-12">
+        <Heading class="mb-4 flex-1" customSize="text-4xl font-extrabold md:text-5xl lg:text-6xl" tag="h1">
+            <span class="drop-shadow-md">NuState
+                <span class="relative inline-block -skew-y-6 px-3 py-1 bg-blue-500 text-neutral-100">Timeline</span>
+            </span>
+        </Heading>
+    </article>
+    <article class="max-w-sm">
+        {#if rssEntries.length > 0}
+            <Timeline>
+                {#each rssEntries as entry}
+                    <TimelineItem
+                            date="{new Date(entry.published).getTime() > new Date().getTime() ? 'Features : ' : ''} {new Date(entry.published).toLocaleDateString()}"
+                            title={entry.title}>
+                        {#if entry?.description && entry.description.split('\\n')?.length}
+                            {#each entry.description.split('\\n') as str}
+                                <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400 max-w-md">
+                                    {str ?? ''}
+                                </p>
+                            {/each}
+                        {:else}
+                            <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400 max-w-md">
+                                {entry.description ?? ''}
+                            </p>
+                        {/if}
+                    </TimelineItem>
+                {/each}
+            </Timeline>
+        {:else}
+            <Spinner></Spinner>
+        {/if}
     </article>
 </section>
 

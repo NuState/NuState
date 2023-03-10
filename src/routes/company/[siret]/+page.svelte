@@ -22,7 +22,7 @@
     import {type Analytics, getAnalytics} from "@firebase/analytics";
     import {type FirebasePerformance, getPerformance} from "@firebase/performance";
     import {environment} from "../../../environments/environment";
-    import {Database, DataSnapshot, getDatabase, onValue, ref, set} from "@firebase/database";
+    import {type Database, type DataSnapshot, getDatabase, onValue, ref, set} from "@firebase/database";
     import {type Company} from "french-company-types";
     import {FooterComponent, InfoSvg, TableLeaders, TableLogs} from "$components/public-api";
     import Tab1 from "./Tab1.svelte";
@@ -65,7 +65,7 @@
             company = _temps[0]
             isFetch = true
 
-            const _startTime = new Date().getMilliseconds()
+            const _startTime = new Date().getTime()
             const testValue = [
                 {label: 'Raison sociale', value: company?.nom_raison_sociale},
                 {label: 'Nom complet', value: company?.nom_complet},
@@ -97,7 +97,7 @@
                     initialScoreValue: score + (!testValueElement.value ? 10 : 0),
                     scoreValue: score,
                     label: testValueElement.label,
-                    at: Math.abs(_startTime - new Date().getMilliseconds())
+                    at: Math.abs(_startTime - new Date().getTime())
                 })
             }
 
@@ -106,7 +106,7 @@
                 initialScoreValue: score - 100,
                 scoreValue: score,
                 label: 'Ratio Nombre d\'établissements',
-                at: Math.abs(_startTime - new Date().getMilliseconds())
+                at: Math.abs(_startTime - new Date().getTime())
             })
             maxScore += 100
             if (company && company.nombre_etablissements && company.nombre_etablissements_ouverts) {
@@ -116,7 +116,7 @@
                     initialScoreValue: score + _t,
                     scoreValue: score,
                     label: 'Ratio Nombre d\'établissements',
-                    at: Math.abs(_startTime - new Date().getMilliseconds())
+                    at: Math.abs(_startTime - new Date().getTime())
                 })
             } else {
                 score -= 100
@@ -124,7 +124,7 @@
                     initialScoreValue: score + 100,
                     scoreValue: score,
                     label: 'Ratio Nombre d\'établissements',
-                    at: Math.abs(_startTime - new Date().getMilliseconds())
+                    at: Math.abs(_startTime - new Date().getTime())
                 })
             }
 

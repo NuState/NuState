@@ -1,15 +1,15 @@
 # NuStateAPI
 
-Rechercher et vérifier des entreprises, en toute simplicité.
+Search and verify businesses, made easy.
 
 ## Build
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/5f33ffd0-dae0-41ec-8755-17f9f7086560/deploy-status)](https://app.netlify.com/sites/nustate/deploys)
 
-## Authors
+## Author
 
-- [git-init-wesley](https://github.com/git-init-wesley)
-- [allan950](https://github.com/allan950)
-- [Thomaslgts](https://github.com/Thomaslgts)
-- [ToulonBogoTom](https://github.com/ToulonBogoTom)
-- [QuentinLourme3WA](https://github.com/QuentinLourme3WA)
+- [git-init-wesley](https://github.com/git-init-wesley) - Owner
+
+## Copyright
+
+All Rights Reserved (c) 2023 NuState
