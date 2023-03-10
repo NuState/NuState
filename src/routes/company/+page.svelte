@@ -3,6 +3,8 @@
     import {
         Button,
         DarkMode,
+        Li,
+        List,
         Search,
         Spinner,
         Table,
@@ -62,11 +64,11 @@
                     <Table class="transition-all duration-300 ease-in-out" shadow>
                         <TableHead>
                             <TableHeadCell>SIRET</TableHeadCell>
-                            <TableHeadCell>Dénominations</TableHeadCell>
+                            <TableHeadCell>Dénomination</TableHeadCell>
                             <TableHeadCell>Activité principale exercée</TableHeadCell>
                             <TableHeadCell></TableHeadCell>
                         </TableHead>
-                        <TableBody class="divide-y">
+                        <TableBody>
                             {#each companies as company}
                                 <TableBodyRow>
                                     <TableBodyCell>{formatSiret(company?.siege?.siret)}</TableBodyCell>
@@ -75,7 +77,7 @@
                                     <TableBodyCell>
                                         <Button class="drop-shadow-md shadow transition-all duration-300 ease-in-out"
                                                 href="/company/{company?.siege?.siret}">Continuer
-                                            <ArrowRightSvg className="h-4 w-4"></ArrowRightSvg>
+                                            <ArrowRightSvg className="ml-1 h-4 w-4"></ArrowRightSvg>
                                         </Button>
                                     </TableBodyCell>
                                 </TableBodyRow>
@@ -89,14 +91,14 @@
         {:else if value && value.length >= 3}
             <div class="text-start self-start">
                 <p>Aucun résultat, essayez:</p>
-                <ul>
-                    <li>- SIREN</li>
-                    <li>- SIRET</li>
-                    <li>- Dénomination</li>
-                    <li>- Adresse</li>
-                    <li>- Dirigeants</li>
-                    <li>- Élus</li>
-                </ul>
+                <List tag="ul" class="ml-4" shadow>
+                    <Li>SIREN</Li>
+                    <Li>SIRET</Li>
+                    <Li>Dénomination</Li>
+                    <Li>Adresse</Li>
+                    <Li>Dirigeants</Li>
+                    <Li>Élus</Li>
+                </List>
             </div>
         {/if}
     </article>
