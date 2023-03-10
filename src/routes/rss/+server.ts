@@ -1,5 +1,5 @@
 import {Feed, type Item} from "feed";
-import {type App, cert, deleteApp, getApp, initializeApp} from "firebase-admin/app";
+import admin from "firebase-admin/app";
 import {environment} from "../../environments/environment-server";
 import {dev} from "$app/environment";
 import {environmentDev} from "../../environments/environment-dev-server";
@@ -8,23 +8,23 @@ import {getDatabase} from "firebase-admin/database";
 /** @type {import('../../../.svelte-kit/types/src/routes').RequestHandler} */
 export async function GET({url}: { url: URL }) {
 
-    let firebaseApp: App | undefined
+    let firebaseApp: admin.App | undefined
     try {
-        firebaseApp = getApp('[ADMIN_DEFAULT]')
+        firebaseApp = admin.getApp('[ADMIN_DEFAULT]')
     } catch (reason) {
         if (dev) console.log(reason)
     }
 
-    if (firebaseApp) await deleteApp(firebaseApp)
+    if (firebaseApp) await admin.deleteApp(firebaseApp)
 
     if (dev) {
-        firebaseApp = initializeApp({
-            credential: cert(environmentDev.firebaseConfig),
+        firebaseApp = admin.initializeApp({
+            credential: admin.cert(environmentDev.firebaseConfig),
             databaseURL: environmentDev.firebaseDatabaseURL
         }, '[ADMIN_DEFAULT]')
     } else {
-        firebaseApp = initializeApp({
-            credential: cert(environment.firebaseConfig),
+        firebaseApp = admin.initializeApp({
+            credential: admin.cert(environment.firebaseConfig),
             databaseURL: environment.firebaseDatabaseURL
         }, '[ADMIN_DEFAULT]')
     }
@@ -60,7 +60,7 @@ export async function GET({url}: { url: URL }) {
         rss.addItem(_item)
     }
 
-    await deleteApp(firebaseApp)
+    await admin.deleteApp(firebaseApp)
 
     return new Response(rss.rss2(), {
         headers: {
