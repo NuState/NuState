@@ -48,6 +48,7 @@
     "flowbite": "^1.6.3",
     "flowbite-svelte": "^0.30.6",
     "french-company-types": "^1.0.0",
-    "rss-parser": "^3.12.0"
+    "rss-parser": "^3.12.0",
+    "string_decoder": "^1.3.0"
   }
 }
