@@ -1,18 +1,20 @@
-import RSS from "rss";
+import {Feed} from "feed";
 
 /** @type {import('./$types').RequestHandler} */
-export async function GET({url, fetch}: { url: URL, fetch: any }) {
-    const rss = new RSS({
+export async function GET({url}: { url: URL }) {
+    const rss = new Feed({
         title: 'NuStateAPI',
         description: 'Rechercher et vérifier des entreprises, en toute simplicité.',
-        feed_url: `${url.origin}/api/rss`,
-        site_url: url.origin,
-        image_url: `${url.origin}/icons/NuStateAPI-White.png`,
-        managingEditor: 'NuStateAPI',
-        webMaster: 'NuStateAPI',
-        copyright: '2023 NuStateAPI',
-        language: 'fr'
+        language: 'fr',
+        id: `${url.origin}/api/rss`,
+        link: url.origin,
+        image: `${url.origin}/icons/NuStateAPI-White.png`,
+        copyright: `All rights reserved © ${new Date().getFullYear()} NuStateAPI`,
+        author: {
+            name: 'NuStateAPI',
+            link: url.origin
+        }
     })
     //TODO: Feed items
-    return new Response(rss.xml())
+    return new Response(rss.rss2())
 }
