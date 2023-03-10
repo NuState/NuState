@@ -1,29 +1,30 @@
 import {Feed, type Item} from "feed";
-import admin from "firebase-admin";
+import {type App, cert, deleteApp, getApp, initializeApp} from "firebase-admin/app";
 import {environment} from "../../environments/environment-server";
 import {dev} from "$app/environment";
 import {environmentDev} from "../../environments/environment-dev-server";
+import {getDatabase} from "firebase-admin/database";
 
 /** @type {import('../../../.svelte-kit/types/src/routes').RequestHandler} */
 export async function GET({url}: { url: URL }) {
 
-    let firebaseApp: admin.app.App | undefined
+    let firebaseApp: App | undefined
     try {
-        firebaseApp = admin.app('[ADMIN_DEFAULT]')
+        firebaseApp = getApp('[ADMIN_DEFAULT]')
     } catch (reason) {
         if (dev) console.log(reason)
     }
 
-    if (firebaseApp) await firebaseApp.delete()
+    if (firebaseApp) await deleteApp(firebaseApp)
 
     if (dev) {
-        firebaseApp = admin.initializeApp({
-            credential: admin.credential.cert(environmentDev.firebaseConfig),
+        firebaseApp = initializeApp({
+            credential: cert(environmentDev.firebaseConfig),
             databaseURL: environmentDev.firebaseDatabaseURL
         }, '[ADMIN_DEFAULT]')
     } else {
-        firebaseApp = admin.initializeApp({
-            credential: admin.credential.cert(environment.firebaseConfig),
+        firebaseApp = initializeApp({
+            credential: cert(environment.firebaseConfig),
             databaseURL: environment.firebaseDatabaseURL
         }, '[ADMIN_DEFAULT]')
     }
@@ -43,7 +44,7 @@ export async function GET({url}: { url: URL }) {
         }
     })
 
-    const items: Item[] = await (await firebaseApp.database().ref('feed/index').get()).val()
+    const items: Item[] = await (await getDatabase(firebaseApp).ref('feed/index').get()).val()
 
     for (const item of items.reverse()) {
         const _item = item
@@ -59,7 +60,7 @@ export async function GET({url}: { url: URL }) {
         rss.addItem(_item)
     }
 
-    await firebaseApp.delete()
+    await deleteApp(firebaseApp)
 
     return new Response(rss.rss2(), {
         headers: {
