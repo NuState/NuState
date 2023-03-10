@@ -8,7 +8,7 @@ export const environment = {
         type: 'service_account',
         project_id: env['FBA_SDK_project_id'],
         private_key_id: env['FBA_SDK_private_key_id'],
-        private_key: env['FBA_SDK_private_key'],
+        private_key: env['FBA_SDK_private_key']?.replace(/\n/gm, "\n"),
         client_email: env['FBA_SDK_client_email'],
         client_id: env['FBA_SDK_client_id'],
         auth_uri: env['FBA_SDK_auth_uri'],
