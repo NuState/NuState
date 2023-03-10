@@ -1,5 +1,5 @@
 import {Feed, type Item} from "feed";
-import {app, credential, initializeApp} from "firebase-admin";
+import admin from "firebase-admin";
 import {environment} from "../../environments/environment-server";
 import {dev} from "$app/environment";
 import {environmentDev} from "../../environments/environment-dev-server";
@@ -7,9 +7,9 @@ import {environmentDev} from "../../environments/environment-dev-server";
 /** @type {import('../../../.svelte-kit/types/src/routes').RequestHandler} */
 export async function GET({url}: { url: URL }) {
 
-    let firebaseApp: app.App | undefined
+    let firebaseApp: admin.app.App | undefined
     try {
-        firebaseApp = app('[ADMIN_DEFAULT]')
+        firebaseApp = admin.app('[ADMIN_DEFAULT]')
     } catch (reason) {
         if (dev) console.log(reason)
     }
@@ -17,13 +17,13 @@ export async function GET({url}: { url: URL }) {
     if (firebaseApp) await firebaseApp.delete()
 
     if (dev) {
-        firebaseApp = initializeApp({
-            credential: credential.cert(environmentDev.firebaseConfig),
+        firebaseApp = admin.initializeApp({
+            credential: admin.credential.cert(environmentDev.firebaseConfig),
             databaseURL: environmentDev.firebaseDatabaseURL
         }, '[ADMIN_DEFAULT]')
     } else {
-        firebaseApp = initializeApp({
-            credential: credential.cert(environment.firebaseConfig),
+        firebaseApp = admin.initializeApp({
+            credential: admin.credential.cert(environment.firebaseConfig),
             databaseURL: environment.firebaseDatabaseURL
         }, '[ADMIN_DEFAULT]')
     }
