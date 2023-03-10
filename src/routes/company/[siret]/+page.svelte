@@ -221,10 +221,10 @@
                     {company?.nom_raison_sociale ?? 'N/A'}
                     <Indicator size="lg" color={company?.nom_raison_sociale ? 'green' : 'red'}/>
                 </Heading>
-                <P color="gray" class="flex inline-flex drop-shadow-md" tag="h2">
+                <Heading class="flex inline-flex drop-shadow-md !text-lg !text-gray-500" tag="h2">
                     {company?.nom_complet ?? 'N/A'}
                     <Indicator size="sm" color={company?.nom_complet ? 'green' : 'red'}/>
-                </P>
+                </Heading>
 
                 <div class="my-3 mb-4 w-full flex inline-flex space-x-3">
                     <Button on:click={() => currentTab = 0} color={currentTab === 0 ? 'blue' : 'alternative'}
