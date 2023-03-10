@@ -2,8 +2,8 @@
     export let className
 </script>
 
-<svg class="{className}" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-    <path clip-rule="evenodd"
-          d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z"
-          fill-rule="evenodd"></path>
+<svg class="{className}" fill="currentColor" stroke="currentColor" viewBox="0 0 512 512"
+     xmlns="http://www.w3.org/2000/svg">
+    <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+    <path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
 </svg>

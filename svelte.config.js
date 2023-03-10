@@ -20,7 +20,8 @@ const config = {
         adapter: adapter({edge: true}),
         alias: {
             $libs: './src/libs',
-            $components: './src/components'
+            $components: './src/components',
+            $functions: './src/functions'
         }
     }
 };
