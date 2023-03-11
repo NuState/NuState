@@ -9,7 +9,7 @@
     import {onMount} from "svelte";
 
     onMount(() => {
-        if(dev) self["FIREBASE_APPCHECK_DEBUG_TOKEN"] = true
+        if (dev) self["FIREBASE_APPCHECK_DEBUG_TOKEN"] = true
 
         let firebaseApp: FirebaseApp | undefined
         let firebaseAppCheck: AppCheck | undefined

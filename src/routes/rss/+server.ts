@@ -1,6 +1,7 @@
 import {Feed, type Item} from "feed";
 import {type App, cert, deleteApp, getApp, initializeApp} from 'firebase-admin/app';
 import {environment} from "../../environments/environment-server";
+import {environment as environmentClient} from "../../environments/environment";
 import {dev} from "$app/environment";
 import {environmentDev} from "../../environments/environment-dev-server";
 import {getDatabase} from "firebase-admin/database";
@@ -32,7 +33,7 @@ export async function GET({url}: { url: URL }) {
     }
 
     let firebaseAppCheck: AppCheck = getAppCheck(firebaseApp)
-    await firebaseAppCheck.verifyToken('6LeN3u8kAAAAAMqcFHooMnaEGk2j_MNAZpUQFD_X')
+    await firebaseAppCheck.verifyToken((await firebaseAppCheck.createToken(environmentClient.firebaseConfig.appId)).token)
 
     const rss = new Feed({
         title: 'NuStateAPI',
