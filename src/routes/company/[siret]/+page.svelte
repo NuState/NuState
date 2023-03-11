@@ -27,17 +27,13 @@
     import {FooterComponent, InfoSvg, TableLeaders, TableLogs} from "$components/public-api";
     import Tab1 from "./Tab1.svelte";
     import {slide} from "svelte/transition";
+    import {type AppCheck, initializeAppCheck, ReCaptchaV3Provider} from "@firebase/app-check";
 
     let firebaseApp: FirebaseApp | undefined
+    let firebaseAppCheck: AppCheck | undefined
     let firebaseAnalytics: Analytics | undefined
-    let firebaseDatabase: Database | undefined
     let firebasePerformance: FirebasePerformance | undefined
-    if (browser) {
-        firebaseApp = initializeApp(environment.firebaseConfig)
-        firebaseAnalytics = getAnalytics(firebaseApp)
-        firebaseDatabase = getDatabase(firebaseApp)
-        firebasePerformance = getPerformance(firebaseApp)
-    }
+    let firebaseDatabase: Database | undefined
 
     /** @type {import('./$types').PageServerData} */
     export let data
@@ -57,6 +53,20 @@
     let currentTab = 0
 
     onMount(async () => {
+
+        if (dev) self["FIREBASE_APPCHECK_DEBUG_TOKEN"] = true
+
+        if (browser) {
+            firebaseApp = initializeApp(environment.firebaseConfig)
+            firebaseAppCheck = initializeAppCheck(firebaseApp, {
+                provider: new ReCaptchaV3Provider('6LeN3u8kAAAAAMqcFHooMnaEGk2j_MNAZpUQFD_X'),
+                isTokenAutoRefreshEnabled: true
+            })
+            firebaseAnalytics = getAnalytics(firebaseApp)
+            firebasePerformance = getPerformance(firebaseApp)
+            firebaseDatabase = getDatabase(firebaseApp)
+        }
+
         if (!siret) return isFetch = true
         try {
             const response: Response = await fetch(encodeURI(`${$page.url.origin}/api/company?q=${siret}`))

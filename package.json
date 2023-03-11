@@ -37,6 +37,7 @@
   "dependencies": {
     "@extractus/feed-extractor": "^6.2.1",
     "@firebase/analytics": "^0.9.4",
+    "@firebase/app-check": "^0.6.4",
     "@firebase/database": "^0.14.4",
     "@firebase/performance": "^0.6.4",
     "@popperjs/core": "^2.11.6",

@@ -4,11 +4,13 @@ import {environment} from "../../environments/environment-server";
 import {dev} from "$app/environment";
 import {environmentDev} from "../../environments/environment-dev-server";
 import {getDatabase} from "firebase-admin/database";
+import {type AppCheck, getAppCheck} from "firebase-admin/app-check";
 
 /** @type {import('../../../.svelte-kit/types/src/routes').RequestHandler} */
 export async function GET({url}: { url: URL }) {
 
     let firebaseApp: App | undefined
+
     try {
         firebaseApp = getApp('[ADMIN_DEFAULT]')
     } catch (reason) {
@@ -28,6 +30,9 @@ export async function GET({url}: { url: URL }) {
             databaseURL: environment.firebaseDatabaseURL
         }, '[ADMIN_DEFAULT]')
     }
+
+    let firebaseAppCheck: AppCheck = getAppCheck(firebaseApp)
+    await firebaseAppCheck.verifyToken('6LeN3u8kAAAAAMqcFHooMnaEGk2j_MNAZpUQFD_X')
 
     const rss = new Feed({
         title: 'NuStateAPI',
