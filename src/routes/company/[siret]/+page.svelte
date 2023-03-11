@@ -180,7 +180,7 @@
 </script>
 
 <svelte:head>
-    <title>NuStateAPI | Company</title>
+    <title>NuStateAPI | Company | {siret}</title>
 </svelte:head>
 
 {#if !siret || !company || !isFetch}
@@ -226,15 +226,15 @@
                     <Indicator size="sm" color={company?.nom_complet ? 'green' : 'red'}/>
                 </Heading>
 
-                <div class="my-3 mb-4 w-full flex inline-flex space-x-3">
+                <div class="my-3 mb-4 w-full flex inline-flex max-sm:space-x-1.5 sm:space-x-3">
                     <Button on:click={() => currentTab = 0} color={currentTab === 0 ? 'blue' : 'alternative'}
-                            class="w-full shadow drop-shadow-md transition-all duration-300 ease-in-out">
+                            class="w-full max-sm:text-xs shadow drop-shadow-md transition-all duration-300 ease-in-out">
                         Entreprise
                     </Button>
                     <span class="w-full" id="btnTab2">
                         <Button disabled on:click={() => currentTab = 1}
                                 color={currentTab === 1 ? 'blue' : 'alternative'}
-                                class="w-full shadow drop-shadow-md duration-300 ease-in-out">
+                                class="w-full max-sm:text-xs shadow drop-shadow-md duration-300 ease-in-out">
                             Siège
                         </Button>
                     </span>
@@ -246,7 +246,7 @@
                     <span class="w-full" id="btnTab3">
                         <Button disabled on:click={() => currentTab = 2}
                                 color={currentTab === 2 ? 'blue' : 'alternative'}
-                                class="w-full shadow drop-shadow-md duration-300 ease-in-out">
+                                class="w-full max-sm:text-xs shadow drop-shadow-md duration-300 ease-in-out">
                             Compléments
                         </Button>
                     </span>
@@ -306,7 +306,7 @@
     <section class="relative shadow-md rounded-lg mx-6 lg:mx-12 mb-3 transition-all duration-300 ease-in-out">
         <article>
             <Card shadow class="!bg-transparent text-left items-start gap-y-4 shadow-inner" size="full">
-                <Heading class="drop-shadow-md" tag="h1">Logs</Heading>
+                <Heading class="drop-shadow-md" tag="h3">Logs</Heading>
                 <div class="italic drop-shadow-md">
                     <P color="gray"><span class="font-bold">IS</span> : Valeur initial du score</P>
                     <P color="gray"><span class="font-bold">AS</span> : Valeur après le test du score</P>
@@ -324,7 +324,7 @@
     <section class="relative mx-6 lg:mx-12 mb-3 transition-all duration-300 ease-in-out">
         <article>
             <Card shadow class="!bg-transparent text-left items-start gap-y-4 shadow-inner" size="full">
-                <Heading class="drop-shadow-md" tag="h1">
+                <Heading class="drop-shadow-md" tag="h3">
                     Dirigeant{company.dirigeants.length > 1 ? 's' : '(e)'}</Heading>
                 <div class="italic drop-shadow-md">
                     <P color="gray"><span class="font-bold">PP</span> : Personne Physique</P>
@@ -357,7 +357,7 @@
     <section class="relative mx-6 lg:mx-12 mb-3 transition-all duration-300 ease-in-out">
         <article>
             <Card shadow class="!bg-transparent text-left items-start gap-y-4 shadow-inner" size="full">
-                <Heading class="drop-shadow-md" tag="h1">Établissement(s) lié</Heading>
+                <Heading class="drop-shadow-md" tag="h3">Établissement(s) lié</Heading>
                 <!--div class="italic drop-shadow-md">
                     <P color="gray"><span class="font-bold">PP</span> : Personne Physique</P>
                     <P color="gray"><span class="font-bold">PM</span> : Personne Morale</P>
