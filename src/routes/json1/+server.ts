@@ -64,7 +64,7 @@ export async function GET({url}: { url: URL }) {
 
     return new Response(rss.json1(), {
         headers: {
-            'Content-Type': 'text/xml;charset=UTF-8'
+            'Content-Type': 'application/json;charset=UTF-8'
         }
     })
 }
