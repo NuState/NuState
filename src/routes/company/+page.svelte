@@ -21,20 +21,29 @@
     import type {Company} from "french-company-types";
     import {type FirebaseApp, initializeApp} from "firebase/app";
     import {type Analytics, getAnalytics, logEvent} from "@firebase/analytics";
-    import {Database, getDatabase} from "@firebase/database";
     import {type FirebasePerformance, getPerformance} from "@firebase/performance";
     import {environment} from "../../environments/environment";
+    import {type AppCheck, initializeAppCheck, ReCaptchaV3Provider} from "@firebase/app-check";
+    import {onMount} from "svelte";
 
     let firebaseApp: FirebaseApp | undefined
+    let firebaseAppCheck: AppCheck | undefined
     let firebaseAnalytics: Analytics | undefined
-    let firebaseDatabase: Database | undefined
     let firebasePerformance: FirebasePerformance | undefined
-    if (browser) {
-        firebaseApp = initializeApp(environment.firebaseConfig)
-        firebaseAnalytics = getAnalytics(firebaseApp)
-        firebaseDatabase = getDatabase(firebaseApp)
-        firebasePerformance = getPerformance(firebaseApp)
-    }
+
+    onMount(() => {
+        if (dev) self["FIREBASE_APPCHECK_DEBUG_TOKEN"] = true
+
+        if (browser) {
+            firebaseApp = initializeApp(environment.firebaseConfig)
+            firebaseAppCheck = initializeAppCheck(firebaseApp, {
+                provider: new ReCaptchaV3Provider('6LeN3u8kAAAAAMqcFHooMnaEGk2j_MNAZpUQFD_X'),
+                isTokenAutoRefreshEnabled: true
+            })
+            firebaseAnalytics = getAnalytics(firebaseApp)
+            firebasePerformance = getPerformance(firebaseApp)
+        }
+    })
 
     let value: string | undefined
     let isError: boolean = false

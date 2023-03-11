@@ -43,7 +43,7 @@
     </article>
 </section>
 
-<section class="mt-12 h-full flex flex-col items-center justify-center">
+<section class="mt-12 h-full mx-3 flex flex-col items-center justify-center">
     <article class="my-12">
         <Heading class="mb-4 flex-1" customSize="text-4xl font-extrabold md:text-5xl lg:text-6xl" tag="h1">
             <span class="drop-shadow-md">NuState
