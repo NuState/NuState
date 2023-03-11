@@ -15,11 +15,26 @@
         TableHeadCell
     } from "flowbite-svelte";
     import {page} from "$app/stores";
-    import {dev} from "$app/environment";
+    import {browser, dev} from "$app/environment";
     import {formatSiret} from "$libs/public-api";
     import {ArrowRightSvg} from "$components/public-api";
     import type {Company} from "french-company-types";
+    import {type FirebaseApp, initializeApp} from "firebase/app";
+    import {type Analytics, getAnalytics, logEvent} from "@firebase/analytics";
+    import {Database, getDatabase} from "@firebase/database";
+    import {type FirebasePerformance, getPerformance} from "@firebase/performance";
+    import {environment} from "../../environments/environment";
 
+    let firebaseApp: FirebaseApp | undefined
+    let firebaseAnalytics: Analytics | undefined
+    let firebaseDatabase: Database | undefined
+    let firebasePerformance: FirebasePerformance | undefined
+    if (browser) {
+        firebaseApp = initializeApp(environment.firebaseConfig)
+        firebaseAnalytics = getAnalytics(firebaseApp)
+        firebaseDatabase = getDatabase(firebaseApp)
+        firebasePerformance = getPerformance(firebaseApp)
+    }
 
     let value: string | undefined
     let isError: boolean = false
@@ -27,6 +42,7 @@
     let companies: Company[] = []
 
     const getFilteredCompanies = () => {
+        if (firebaseAnalytics) logEvent(firebaseAnalytics, 'search_company_input')
         companies = []
         if (buffer) {
             clearInterval(buffer)
@@ -42,6 +58,15 @@
             }
             buffer = undefined
         }, 1000)
+    }
+
+    const toCompanyDetails = async (siret?: string) => {
+        if (!siret) return
+        if (firebaseAnalytics) await logEvent(firebaseAnalytics, 'search_company', {
+            siret: siret,
+            at: new Date().toISOString()
+        }, {global: true})
+        window.location.assign(`/company/${siret}`)
     }
 
 </script>
@@ -75,8 +100,9 @@
                                     <TableBodyCell>{company?.nom_complet}</TableBodyCell>
                                     <TableBodyCell>{company?.libelle_activite_principale_n5}</TableBodyCell>
                                     <TableBodyCell>
-                                        <Button class="drop-shadow-md shadow transition-all duration-300 ease-in-out"
-                                                href="/company/{company?.siege?.siret}">Continuer
+                                        <Button type="button"
+                                                class="drop-shadow-md shadow transition-all duration-300 ease-in-out"
+                                                on:click={() => toCompanyDetails(company?.siege?.siret)}>Continuer
                                             <ArrowRightSvg className="ml-1 h-4 w-4"></ArrowRightSvg>
                                         </Button>
                                     </TableBodyCell>
