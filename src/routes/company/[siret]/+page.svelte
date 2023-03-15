@@ -190,7 +190,7 @@
 </script>
 
 <svelte:head>
-    <title>NuStateAPI | Company | {siret}</title>
+    <title>NuState | Company | {siret}</title>
 </svelte:head>
 
 {#if !siret || !company || !isFetch}

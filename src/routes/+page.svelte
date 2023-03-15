@@ -18,7 +18,7 @@
 </script>
 
 <svelte:head>
-    <title>NuStateAPI</title>
+    <title>NuState</title>
 </svelte:head>
 
 <section class="min-h-screen grid bg-gradient-to-br from-blue-200 to-sky-100 dark:from-blue-800 dark:to-sky-900">
