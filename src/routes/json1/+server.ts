@@ -41,7 +41,7 @@ export async function GET({url}: { url: URL }) {
         language: 'fr',
         id: `${url.origin}/json1`,
         link: url.origin,
-        image: `${url.origin}/icons/NuStateAPI-White.png`,
+        image: `${url.origin}/icons/NuState.png`,
         favicon: `${url.origin}/favicon.ico`,
         copyright: `All rights reserved © ${new Date().getFullYear()} NuStateAPI`,
         author: {

@@ -40,7 +40,7 @@ export async function GET({url}: { url: URL }) {
         language: 'fr',
         id: `${url.origin}/atom1`,
         link: url.origin,
-        image: `${url.origin}/icons/NuStateAPI-White.png`,
+        image: `${url.origin}/icons/NuState.png`,
         favicon: `${url.origin}/favicon.ico`,
         copyright: `All rights reserved © ${new Date().getFullYear()} NuStateAPI`,
         author: {
@@ -69,7 +69,7 @@ export async function GET({url}: { url: URL }) {
 
     return new Response(rss.atom1(), {
         headers: {
-            'Content-Type': 'text/xml;charset=UTF-8'
+            'Content-Type': 'application/atom+xml;charset=UTF-8'
         }
     })
 }
