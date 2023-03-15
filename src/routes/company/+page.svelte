@@ -81,7 +81,7 @@
 </script>
 
 <svelte:head>
-    <title>NuStateAPI | Company</title>
+    <title>NuState | Company</title>
 </svelte:head>
 
 <section class="relative mx-6 lg:mx-24 mt-14 mb-3 transition-all duration-300 ease-in-out">

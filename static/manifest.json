@@ -1,15 +1,13 @@
 {
-  "name": "NuStateAPI",
-  "short_name": "NuStateAPI",
-  "author": "NuStateAPI",
+  "name": "NuState",
+  "short_name": "NuState",
+  "author": "NuState",
   "authors": [
-    "git-init-wesley",
-    "allan950",
-    "Thomaslgts",
-    "ToulonBogoTom",
-    "QuentinLourme3WA"
+    "NuState",
+    "Wesley LEVASSEUR"
   ],
   "keywords": [
+    "nustate",
     "nustateapi",
     "api",
     "entreprise"
