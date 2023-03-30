@@ -3,9 +3,10 @@
     import {slide} from "svelte/transition";
 
     export let triggeredBy
+    export let placement = undefined
 </script>
 
-<Popover class="w-64 text-sm font-light" placement="bottom" title="Numéro SIREN" transition={slide}
+<Popover class="w-64 text-sm font-light" placement={placement ?? 'bottom'} title="Numéro SIREN" transition={slide}
          trigger="hover" triggeredBy={triggeredBy}>
     <A class="w-full" href="https://www.insee.fr/fr/metadonnees/definition/c2047">Source</A>
     Le numéro Siren est un identifiant de neuf chiffres attribué à chaque unité légale. Les huit premiers chiffres n'ont
