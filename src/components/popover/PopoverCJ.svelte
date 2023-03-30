@@ -3,9 +3,11 @@
     import {slide} from "svelte/transition";
 
     export let triggeredBy
+    export let placement = undefined
 </script>
 
-<Popover class="w-64 text-sm font-light" placement="bottom" title="Catégorie juridique" transition={slide}
+<Popover class="w-64 text-sm font-light" placement={placement ?? 'bottom'} title="Catégorie juridique"
+         transition={slide}
          trigger="hover" triggeredBy={triggeredBy}>
     <A class="w-full" href="https://www.sirene.fr/sirene/public/variable/etatAdministratifUniteLegale">Source</A>
     La nomenclature des catégories juridiques retenue dans la gestion du répertoire Sirene, répertoire officiel
