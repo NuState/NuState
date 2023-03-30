@@ -18,6 +18,7 @@ export const environment = {
     } as AppOptions,
     firebaseDatabaseURL: env['FBA_SDK_databaseURL'],
     engines: {
+        endpoint: env['ENGINE_ENDPOINT_KEY'],
         searchCodes: env['ENGINE_SEARCH_CODES_KEY'],
     }
 }
