@@ -4,9 +4,11 @@
     import {CompanyCategories} from "french-company-types";
 
     export let triggeredBy
+    export let placement = undefined
 </script>
 
-<Popover class="w-64 text-sm font-light" placement="top" title="Catégorie d'entreprise" transition={slide}
+<Popover class="w-64 text-sm font-light" placement={placement ?? 'top'} title="Catégorie d'entreprise"
+         transition={slide}
          trigger="hover" triggeredBy={triggeredBy}>
     <A class="w-full" href="https://www.insee.fr/fr/metadonnees/definition/c1057">Source</A>
     <p class="w-full">

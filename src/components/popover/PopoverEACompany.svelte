@@ -4,9 +4,10 @@
     import {CompanyStates} from "french-company-types";
 
     export let triggeredBy
+    export let placement = undefined
 </script>
 
-<Popover class="w-64 text-sm font-light" placement="top" title="État administratif" transition={slide}
+<Popover class="w-64 text-sm font-light" placement={placement ?? 'top'} title="État administratif" transition={slide}
          trigger="hover" triggeredBy={triggeredBy}>
     <A class="w-full" href="https://www.sirene.fr/sirene/public/variable/etatAdministratifUniteLegale">Source</A>
     <p class="w-full">
@@ -18,7 +19,7 @@
         Pour les personnes morales, la cessation administrative est, en théorie, définitive, l'état administratif
         "Cessée" est irréversible.
     </p>
-    {#each Object.entries(CompanyStates) as ce}
-        <p class="w-full"><span class="font-bold">{ce[0]}</span> : {ce[1]}</p>
+    {#each Object.entries(CompanyStates) as cs}
+        <p class="w-full"><span class="font-bold">{cs[0]}</span> : {cs[1]}</p>
     {/each}
 </Popover>

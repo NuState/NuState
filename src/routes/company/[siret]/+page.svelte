@@ -14,20 +14,22 @@
         Kbd,
         P,
         Popover,
+        Span,
         Spinner
     } from 'flowbite-svelte';
     import {browser, dev} from "$app/environment";
-    import {type Report, uuid_e4} from "$libs/public-api";
+    import {type Log, type Report} from "$libs/public-api";
     import {type FirebaseApp, initializeApp} from "firebase/app";
     import {type Analytics, getAnalytics} from "@firebase/analytics";
     import {type FirebasePerformance, getPerformance} from "@firebase/performance";
     import {environment} from "../../../environments/environment";
-    import {type Database, type DataSnapshot, getDatabase, onValue, ref, set} from "@firebase/database";
+    import {type Database, type DataSnapshot, getDatabase, onValue, ref} from "@firebase/database";
     import {type Company} from "french-company-types";
-    import {FooterComponent, InfoSvg, TableLeaders, TableLogs} from "$components/public-api";
+    import {FooterComponent, InfoSvg, TableEstablishments, TableLeaders, TableLogs} from "$components/public-api";
     import Tab1 from "./Tab1.svelte";
     import {slide} from "svelte/transition";
     import {type AppCheck, initializeAppCheck, ReCaptchaV3Provider} from "@firebase/app-check";
+    import {getScoreRatio, reportCompany, testCompany} from "$functions/public-api";
 
     let firebaseApp: FirebaseApp | undefined
     let firebaseAppCheck: AppCheck | undefined
@@ -38,22 +40,22 @@
     /** @type {import('./$types').PageServerData} */
     export let data
 
-    const scoreLogs: any[] = []
+    let scoreLogs: Log[] = []
     let score: number | undefined
     let maxScore: number | undefined
 
     let isError: boolean = false
     let isFetch: boolean = false
+    let isTest: boolean = false
 
     const siret: string | undefined = $page.params.siret
 
     let company: Company | undefined = undefined
-    let companyReportCount: number = 0
+    let companyReportCount = undefined
 
     let currentTab = 0
 
     onMount(async () => {
-
         if (dev) self["FIREBASE_APPCHECK_DEBUG_TOKEN"] = true
 
         if (browser) {
@@ -75,73 +77,18 @@
             company = _temps[0]
             isFetch = true
 
-            const _startTime = new Date().getTime()
-            const testValue = [
-                {label: 'Raison sociale', value: company?.nom_raison_sociale},
-                {label: 'Nom complet', value: company?.nom_complet},
-                {label: 'Siren', value: company?.siren},
-                {label: 'Nature juridique', value: company?.nature_juridique},
-                {label: 'Libellé nature juridique N1', value: company?.libelle_nature_juridique_n1},
-                {label: 'Libellé nature juridique N2', value: company?.libelle_nature_juridique_n2},
-                {label: 'Libellé nature juridique N3', value: company?.libelle_nature_juridique_n3},
-                {label: 'Activité principale', value: company?.activite_principale},
-                {label: 'Libellé activité principale N1', value: company?.libelle_activite_principale_n1},
-                {label: 'Libellé activité principale N2', value: company?.libelle_activite_principale_n2},
-                {label: 'Libellé activité principale N3', value: company?.libelle_activite_principale_n3},
-                {label: 'Libellé activité principale N4', value: company?.libelle_activite_principale_n4},
-                {label: 'Libellé activité principale N5', value: company?.libelle_activite_principale_n5},
-                {label: 'Nombre d\'établissements', value: company?.nombre_etablissements},
-                {label: 'Nombre d\'établissements ouverts', value: company?.nombre_etablissements_ouverts},
-                {label: 'Tranche effectif salarié', value: company?.tranche_effectif_salarie},
-                {label: 'Catégorie d\'entreprise', value: company?.categorie_entreprise},
-                {label: 'État administratif', value: company?.etat_administratif},
-                {label: 'Dirigeants', value: company?.dirigeants},
-                {label: 'Établissements lié', value: company?.matching_etablisssements},
-            ]
-            score = testValue.length * 10
-            maxScore = testValue.length * 10
-
-            for (let testValueElement of testValue) {
-                if (!testValueElement.value) score -= 10
-                scoreLogs.push({
-                    initialScoreValue: score + (!testValueElement.value ? 10 : 0),
-                    scoreValue: score,
-                    label: testValueElement.label,
-                    at: Math.abs(_startTime - new Date().getTime())
-                })
-            }
-
-            score += 100
-            scoreLogs.push({
-                initialScoreValue: score - 100,
-                scoreValue: score,
-                label: 'Ratio Nombre d\'établissements',
-                at: Math.abs(_startTime - new Date().getTime())
+            if (company) testCompany(company).then((value: { score: number, maxScore: number, scoreLogs: any[] }) => {
+                score = value.score
+                maxScore = value.maxScore
+                scoreLogs = value.scoreLogs
+                isTest = true
             })
-            maxScore += 100
-            if (company && company.nombre_etablissements && company.nombre_etablissements_ouverts) {
-                const _t = 100 - (((company.nombre_etablissements - company.nombre_etablissements_ouverts) / company.nombre_etablissements * 100).toFixed(0))
-                score -= _t
-                scoreLogs.push({
-                    initialScoreValue: score + _t,
-                    scoreValue: score,
-                    label: 'Ratio Nombre d\'établissements',
-                    at: Math.abs(_startTime - new Date().getTime())
-                })
-            } else {
-                score -= 100
-                scoreLogs.push({
-                    initialScoreValue: score + 100,
-                    scoreValue: score,
-                    label: 'Ratio Nombre d\'établissements',
-                    at: Math.abs(_startTime - new Date().getTime())
-                })
-            }
 
             try {
                 if (siret && firebaseDatabase) {
                     onValue(ref(firebaseDatabase, `reports/${siret}`), (dataSnapshot: DataSnapshot) => {
                         let data: Record<string, Report> | undefined | null
+                        companyReportCount = 0
                         if (dataSnapshot.exists() && (data = dataSnapshot.val()) && data && Object.values(data) && Object.values(data).length) {
                             companyReportCount = Object.values(data).length
                         }
@@ -150,43 +97,11 @@
             } catch (reason) {
                 if (dev) console.log(reason)
             }
-
         } catch (reason) {
             if (dev) console.log(reason)
             isError = true
         }
     })
-
-    const reportCompany = async () => {
-        if (!siret || !firebaseApp || !firebaseDatabase) return
-        try {
-            await set(ref(firebaseDatabase, `reports/${siret}/${uuid_e4()}`), {
-                clientInformation: {
-                    appCodeName: navigator.appCodeName,
-                    appName: navigator.appName,
-                    appVersion: navigator.appVersion,
-                    platform: navigator.platform,
-                    userAgent: navigator.userAgent,
-                    languages: navigator.languages,
-                    cookieEnabled: navigator.cookieEnabled,
-                    geolocation: navigator.geolocation,
-                    doNotTrack: navigator.doNotTrack,
-                    history: window.history,
-                    caches: window.caches,
-                },
-                clientIp: data.clientIp,
-                at: new Date(Date.now()).toISOString()
-            })
-        } catch (reason) {
-            if (dev) console.log(reason)
-        }
-    }
-
-    const getScoreRatio = () => {
-        if (!score || !maxScore) return 0
-        return (score / maxScore) * 100
-    }
-
 </script>
 
 <svelte:head>
@@ -282,12 +197,16 @@
                     <Card class="!bg-transparent text-left items-start gap-y-3 shadow-inner" size="full">
                         <Heading class="drop-shadow-md" tag="h1">SCORE</Heading>
                         <Heading class="drop-shadow-md" tag="h2">
-                            <span class="{getScoreRatio() <  75 ? getScoreRatio() <  50 ? getScoreRatio() <  25 ? 'text-red-500' : 'text-orange-500' : 'text-yellow-500' : 'text-green-500'}">
-                                {score ?? 'N/A'}
-                            </span>
-                            <span class="text-gray-400 dark:text-gray-500">
-                                /{maxScore ?? 'N/A'} - {getScoreRatio()?.toFixed(2)}%
-                            </span>
+                            {#if isTest}
+                                <Span class="{getScoreRatio(score, maxScore) <  75 ? getScoreRatio(score, maxScore) <  50 ? getScoreRatio(score, maxScore) <  25 ? '!text-red-500' : '!text-orange-500' : '!text-yellow-500' : '!text-green-500'}">
+                                    {score ?? 'N/A'}
+                                </Span>
+                                <Span class="!text-gray-400 dark:!text-gray-500">
+                                    /{maxScore ?? 'N/A'} - {getScoreRatio(score, maxScore)?.toFixed(2)}%
+                                </Span>
+                            {:else}
+                                <Spinner></Spinner>
+                            {/if}
                         </Heading>
                     </Card>
                 </article>
@@ -297,8 +216,10 @@
                     <Card shadow class="!bg-transparent text-left items-start gap-y-3 shadow-inner" size="full">
                         <Heading class="flex inline-flex justify-between drop-shadow-md" tag="h1">
                             Rapport
-                            {#if firebaseApp && firebaseDatabase}
-                                <Button on:click={reportCompany} color="red"
+                            {#if typeof companyReportCount === 'number' && firebaseApp && firebaseDatabase}
+                                <Button type="button"
+                                        on:click={() => reportCompany(siret, data?.clientIp, firebaseApp, firebaseDatabase)}
+                                        color="red"
                                         class="transition-all duration-300 ease-in-out drop-shadow-md shadow dark:hover:opacity-75">
                                     Signaler
                                 </Button>
@@ -306,7 +227,11 @@
                         </Heading>
                         <Heading tag="h2"
                                  class="drop-shadow-md {companyReportCount <  75 ? companyReportCount <  50 ? companyReportCount <  25 ? '!text-green-500' : '!text-yellow-500': '!text-orange-500' : '!text-red-500' }">
-                            {companyReportCount}
+                            {#if typeof companyReportCount === 'number'}
+                                {companyReportCount ?? 'N/A'}
+                            {:else}
+                                <Spinner></Spinner>
+                            {/if}
                         </Heading>
                     </Card>
                 </article>
@@ -318,14 +243,18 @@
             <Card shadow class="!bg-transparent text-left items-start gap-y-4 shadow-inner" size="full">
                 <Heading class="drop-shadow-md" tag="h3">Logs</Heading>
                 <div class="italic drop-shadow-md">
-                    <P color="gray"><span class="font-bold">IS</span> : Valeur initial du score</P>
-                    <P color="gray"><span class="font-bold">AS</span> : Valeur après le test du score</P>
+                    <P color="gray"><Span class="font-bold">IS</Span> : Valeur initial du score</P>
+                    <P color="gray"><Span class="font-bold">AS</Span> : Valeur après le test du score</P>
                 </div>
                 <Accordion
                         class="relative w-full transition-all duration-300 ease-in-out">
                     <AccordionItem>
                         <div slot="header">Détails</div>
-                        <TableLogs scoreLogs={scoreLogs}></TableLogs>
+                        {#if isTest}
+                            <TableLogs scoreLogs={scoreLogs}></TableLogs>
+                        {:else}
+                            <Spinner></Spinner>
+                        {/if}
                     </AccordionItem>
                 </Accordion>
             </Card>
@@ -337,8 +266,8 @@
                 <Heading class="drop-shadow-md" tag="h3">
                     Dirigeant{company.dirigeants.length > 1 ? 's' : '(e)'}</Heading>
                 <div class="italic drop-shadow-md">
-                    <P color="gray"><span class="font-bold">PP</span> : Personne Physique</P>
-                    <P color="gray"><span class="font-bold">PM</span> : Personne Morale</P>
+                    <P color="gray"><Span class="font-bold">PP</Span> : Personne Physique</P>
+                    <P color="gray"><Span class="font-bold">PM</Span> : Personne Morale</P>
                 </div>
                 <Accordion
                         class="relative w-full transition-all duration-300 ease-in-out">
@@ -374,12 +303,13 @@
                 </div-->
                 <Accordion
                         class="relative w-full transition-all duration-300 ease-in-out">
-                    {#if company?.matching_etablisssements && company.matching_etablisssements.length > 0}
+                    {#if company?.matching_etablissements && company.matching_etablissements.length > 0}
                         <AccordionItem>
-                            <div slot="header">Détails sur {company.matching_etablisssements.length > 1 ? 'les' : 'l\''}
-                                établissement{company.matching_etablisssements.length > 1 ? 's' : '(e)'} lié
+                            <div slot="header">Détails sur {company.matching_etablissements.length > 1 ? 'les' : 'l\''}
+                                établissement{company.matching_etablissements.length > 1 ? 's' : '(e)'} lié
                             </div>
-                            <!--TODO TableLeaders leaders={company?.dirigeants}></TableLeaders-->
+                            <TableEstablishments establishments={company?.matching_etablissements}>
+                            </TableEstablishments>
                         </AccordionItem>
                     {:else}
                         <AccordionItem class>

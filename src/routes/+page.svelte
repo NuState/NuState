@@ -1,25 +1,29 @@
 <script lang="ts">
-    import {Button, DarkMode, Heading, P, Spinner, Timeline, TimelineItem} from "flowbite-svelte";
-    import {ArrowRightSvg, FooterComponent} from "$components/public-api";
+    import {Button, Card, Heading, P, Spinner, Timeline, TimelineItem} from "flowbite-svelte";
+    import {ArrowRightSvg, FooterComponent, HeaderComponent} from "$components/public-api";
     import {page} from "$app/stores";
     import {onMount} from "svelte";
     import {extract, type FeedData, type FeedEntry} from '@extractus/feed-extractor'
+    import CountUp from "countup";
 
     let rssEntries: FeedEntry[] = []
 
     onMount(async () => {
         const response: FeedData = (await extract($page.url.origin + '/rss', {descriptionMaxLen: (Number.MAX_SAFE_INTEGER)}))
-        console.log(response)
-        rssEntries = response.entries.map(e => {
-            e.description
-            return e
-        })
+        rssEntries = response.entries
+
+        // noinspection TypeScriptValidateTypes
+        new CountUp('etablissements', 0, 34056238).start();
+        // noinspection TypeScriptValidateTypes
+        new CountUp('entreprises', 0, 23987284).start();
     })
 </script>
 
 <svelte:head>
     <title>NuState</title>
 </svelte:head>
+
+<HeaderComponent></HeaderComponent>
 
 <section class="min-h-screen grid bg-gradient-to-br from-blue-200 to-sky-100 dark:from-blue-800 dark:to-sky-900">
     <article
@@ -40,6 +44,36 @@
         <Button class="transition-all duration-300 ease-in-out drop-shadow-md shadow" href="/company">Continuer
             <ArrowRightSvg className="ml-2 -mr-1 w-5 h-5"></ArrowRightSvg>
         </Button>
+    </article>
+</section>
+
+<section class="mt-12 h-full mx-3 flex flex-col items-center justify-center">
+    <article class="my-12">
+        <Heading class="mb-4 flex-1" customSize="text-4xl font-extrabold md:text-5xl lg:text-6xl" tag="h1">
+            <span class="drop-shadow-md">NuState
+                <span class="relative inline-block -skew-y-6 px-3 py-1 bg-blue-500 text-neutral-100">Stats</span>
+            </span>
+        </Heading>
+    </article>
+    <article class="my-12 flex space-x-3">
+        <Card class="dark:!bg-transparent" shadow>
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white drop-shadow-md"
+                id="entreprises">
+                23,987,284
+            </h5>
+            <p class="font-normal text-gray-700 dark:text-gray-400 leading-tight drop-shadow-md">
+                Entreprises enregistrés
+            </p>
+        </Card>
+        <Card class="dark:!bg-transparent" shadow>
+            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white drop-shadow-md"
+                id="etablissements">
+                34,056,238
+            </h5>
+            <p class="font-normal text-gray-700 dark:text-gray-400 leading-tight drop-shadow-md">
+                Établissements enregistrés
+            </p>
+        </Card>
     </article>
 </section>
 
@@ -79,7 +113,3 @@
 </section>
 
 <FooterComponent></FooterComponent>
-
-<div class="absolute top-0 right-0 m-2">
-    <DarkMode></DarkMode>
-</div>

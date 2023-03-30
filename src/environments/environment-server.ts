@@ -16,5 +16,9 @@ export const environment = {
         auth_provider_x509_cert_url: env['FBA_SDK_auth_provider_x509_cert_url'],
         client_x509_cert_url: env['FBA_SDK_client_x509_cert_url'],
     } as AppOptions,
-    firebaseDatabaseURL: env['FBA_SDK_databaseURL']
+    firebaseDatabaseURL: env['FBA_SDK_databaseURL'],
+    engines: {
+        endpoint: env['ENGINE_ENDPOINT_KEY'],
+        searchCodes: env['ENGINE_SEARCH_CODES_KEY'],
+    }
 }

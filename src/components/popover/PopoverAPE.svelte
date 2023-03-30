@@ -3,9 +3,11 @@
     import {slide} from "svelte/transition";
 
     export let triggeredBy
+    export let placement = undefined
 </script>
 
-<Popover class="w-64 text-sm font-light" placement="bottom" title="Activité principale exercée" transition={slide}
+<Popover class="w-64 text-sm font-light" placement={placement ?? 'bottom'} title="Activité principale exercée"
+         transition={slide}
          trigger="hover" triggeredBy={triggeredBy}>
     <A class="w-full" href="https://www.insee.fr/fr/metadonnees/definition/c1888">Source</A>
     L'activité principale exercée (APE) par une unité, est, parmi ses activités, celle qui génère le plus de valeur

@@ -4,9 +4,11 @@
     import {SalaryStaffRanges} from "french-company-types";
 
     export let triggeredBy
+    export let placement = undefined
 </script>
 
-<Popover class="w-64 text-sm font-light" placement="top" title="Tranche d'effectif salarié" transition={slide}
+<Popover class="w-64 text-sm font-light" placement={placement ?? 'top'} title="Tranche d'effectif salarié"
+         transition={slide}
          trigger="hover" triggeredBy={triggeredBy}>
     <A class="w-full" href="https://www.sirene.fr/sirene/public/variable/trancheEffectifsEtablissement">Source</A>
     <p class="w-full">
