@@ -18,7 +18,7 @@
         PopoverCJ1,
         PopoverCJ2,
         PopoverCJ3,
-        PopoverEA,
+        PopoverEACompany,
         PopoverSalaryStaffRangeCode,
         PopoverSIREN,
         SubCategory,
@@ -147,7 +147,6 @@
     </Category>
     <PopoverCE triggeredBy="#ce_1"></PopoverCE>
 
-    <!--suppress JSCheckFunctionSignatures -->
     <Category className="flex inline-flex items-center" hasInfoIcon={true}
               indicatorColor={isActiveCompany(company) ? 'green': 'red'}
               pId="ea_1">
@@ -158,7 +157,7 @@
         {/if}
         <p>État administratif: {company?.etat_administratif}</p>
     </Category>
-    <PopoverEA triggeredBy="#ea_1"></PopoverEA>
+    <PopoverEACompany triggeredBy="#ea_1"></PopoverEACompany>
 
     <Badge class="self-start drop-shadow-md" color="gray">
         <ClockSvg className="h-3 mr-1.5"></ClockSvg>
