@@ -36,16 +36,16 @@ export async function GET({url}: { url: URL }) {
     await firebaseAppCheck.verifyToken((await firebaseAppCheck.createToken(environmentClient.firebaseConfig.appId)).token)
 
     const rss = new Feed({
-        title: 'NuStateAPI',
+        title: 'NuState',
         description: 'Rechercher et vérifier des entreprises, en toute simplicité.',
         language: 'fr',
         id: `${url.origin}/rss`,
         link: url.origin,
         image: `${url.origin}/icons/NuState.png`,
         favicon: `${url.origin}/favicon.ico`,
-        copyright: `All rights reserved © ${new Date().getFullYear()} NuStateAPI`,
+        copyright: `All rights reserved © ${new Date().getFullYear()} NuState`,
         author: {
-            name: 'NuStateAPI',
+            name: 'NuState',
             link: url.origin
         }
     })
@@ -58,7 +58,7 @@ export async function GET({url}: { url: URL }) {
         _item.link = url.origin
         _item.author = [
             {
-                name: 'NuStateAPI',
+                name: 'NuState',
                 link: url.origin
             }
         ]
