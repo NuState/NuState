@@ -9,8 +9,8 @@
             <div class="md:flex md:justify-between">
                 <div class="mb-6 md:mb-0 mr-3 drop-shadow-md">
                     <FooterBrand
-                            alt="NuState icon"
-                            href="https://flowbite.com"
+                            alt="NuState logo"
+                            href="https://nustate.eu"
                             imgClass="mr-3 h-10 rounded-lg"
                             name="NuState"
                             src="/icons/NuState.webp"/>
@@ -24,9 +24,9 @@
                         <h2 class="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">Ressources</h2>
                         <FooterLinkGroup>
                             <FooterLink href="/atom1" liClass="mb-2">
-                                <a class="sr-only" href="/rss"></a>
-                                <a class="sr-only" href="/atom1"></a>
-                                <a class="sr-only" href="/json1"></a>
+                                <a class="sr-only" href="/rss">rss</a>
+                                <a class="sr-only" href="/atom1">atom1</a>
+                                <a class="sr-only" href="/json1">json1</a>
                                 <p class="flex inline-flex">
                                     Feed
                                     <RssSvg className="h-2 ml-0.5"></RssSvg>
