@@ -43,12 +43,13 @@
     "@popperjs/core": "^2.11.6",
     "@types/dateformat": "^5.0.0",
     "classnames": "^2.3.2",
+    "countup": "^1.8.2",
     "dateformat": "^5.0.3",
     "feed": "^4.2.2",
     "firebase": "^9.17.2",
     "firebase-admin": "^11.5.0",
     "flowbite": "^1.6.3",
     "flowbite-svelte": "^0.30.6",
-    "french-company-types": "^1.0.0"
+    "french-company-types": "^1.0.5"
   }
 }
