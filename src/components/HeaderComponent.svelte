@@ -2,8 +2,10 @@
     import {Chevron, DarkMode, MegaMenu, Navbar, NavBrand, NavHamburger, NavLi, NavUl} from "flowbite-svelte";
 
     let menu = [
-        {name: 'NAF/NAP', href: '/utils/naf'},
+        {name: 'NAF', href: '/utils/naf'},
+        {name: 'NAP', href: '/utils/naf'},
         {name: 'NAFA', href: '/utils/nafa'},
+        {name: 'CJ', href: '/utils/cj'},
     ];
 </script>
 
@@ -22,8 +24,8 @@
                 <NavLi class="transition-all duration-300 ease-in-out cursor-pointer w-fit drop-shadow-md">
                     <Chevron aligned>Utilitaires</Chevron>
                 </NavLi>
-                <MegaMenu class="rounded-lg w-fit" items={menu} let:item shadow>
-                    <a class="hover:text-blue-600 dark:hover:text-blue-500 transition-all duration-300 ease-in-out drop-shadow-md w-fit mx-1"
+                <MegaMenu items={menu} let:item shadow>
+                    <a class="hover:text-blue-600 dark:hover:text-blue-500 transition-all duration-300 ease-in-out drop-shadow-md"
                        href={item.href}>{item.name}</a>
                 </MegaMenu>
                 <!--NavLi href="/services">Services</NavLi-->
