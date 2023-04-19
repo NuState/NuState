@@ -41,7 +41,7 @@
             en intégrant des fonctionnalités supplémentaires. Elle peut également être intégrée à d'autres systèmes pour
             offrir une solution complète.
         </P>
-        <Button class="transition-all duration-300 ease-in-out drop-shadow-md shadow" href="/company">Continuer
+        <Button class="transition-all duration-300 ease-in-out drop-shadow-md shadow" href="/search">Continuer
             <ArrowRightSvg className="ml-2 -mr-1 w-5 h-5"></ArrowRightSvg>
         </Button>
     </article>
@@ -62,7 +62,7 @@
                 23,987,284
             </h5>
             <p class="font-normal text-gray-700 dark:text-gray-400 leading-tight drop-shadow-md">
-                Entreprises enregistrés
+                Entreprises enregistrées
             </p>
         </Card>
         <Card class="dark:!bg-transparent" shadow>

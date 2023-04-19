@@ -1,4 +1,5 @@
 export {default as ArrowRightSvg} from './ArrowRightSvg.svelte'
+export {default as ArrowLeftSvg} from './ArrowLeftSvg.svelte'
 export {default as BuildingCircleCheckSvg} from './BuildingCircleCheckSvg.svelte'
 export {default as BuildingCircleXMarkSvg} from './BuildingCircleXMarkSvg.svelte'
 export {default as BuildingShield} from './BuildingShield.svelte'
