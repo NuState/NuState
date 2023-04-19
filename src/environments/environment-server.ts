@@ -20,5 +20,6 @@ export const environment = {
     engines: {
         endpoint: env['ENGINE_ENDPOINT_KEY'],
         searchCodes: env['ENGINE_SEARCH_CODES_KEY'],
+        searchStock: env['ENGINE_SEARCH_STOCK_KEY'],
     }
 }
