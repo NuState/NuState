@@ -1,3 +1,5 @@
+// noinspection JSDeprecatedSymbols
+
 import dateFormat from "dateformat";
 import type {Company} from "french-company-types";
 import {isActiveEstablishment, isPhysicalPerson} from "french-company-types";
@@ -46,7 +48,11 @@ export const reportCompany = async (siret?: string, clientIp?: string, firebaseA
     }
 }
 
-export const testCompany = async (company?: Company): Promise<{ score: number, maxScore: number, scoreLogs: Log[] }> => {
+export const testCompany = async (company?: Company): Promise<{
+    score: number,
+    maxScore: number,
+    scoreLogs: Log[]
+}> => {
     let score = 0, maxScore = 0, scoreLogs: Log[] = []
     const _startTime = new Date().getTime()
 
