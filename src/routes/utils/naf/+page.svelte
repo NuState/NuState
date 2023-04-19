@@ -17,23 +17,31 @@
         TableHeadCell
     } from 'flowbite-svelte';
     import {page} from "$app/stores";
-    import {nafCodes, nafIndexCodes, nafSchemaCodes} from "$functions/public-api";
+    import {nafCodes} from "$functions/public-api";
+    import {type ElasticsearchResponse, NafEnginesMap, type NafSchemaT1, type NafSchemaT2} from "$libs/public-api";
 
     let searchValue
-    let selectedValue
-    let resultData
+    let selectedValue = 'naf-rev2'
+    let resultData: ElasticsearchResponse<NafSchemaT1 | NafSchemaT2> | undefined
     let suggestsData
-    let currentSchema: { n1: { pre_raw: string; label: string }; n2: { pre_raw: string; label: string }; n3: { pre_raw: string; label: string }; n4: { pre_raw: string; label: string }; n5: { pre_raw: string; label: string }; id: { pre_raw: string; label: string } } | {} = nafSchemaCodes.find(f => f.code == 'naf-rev2')?.schema
+    let currentSchema: {
+        n1: { code: string; label: string };
+        n2: { code: string; label: string };
+        n3: { code: string; label: string };
+        n4: { code: string; label: string };
+        n5: { code: string; label: string };
+        id: { code: string; label: string }
+    } | {} = NafEnginesMap.find(f => f.code == 'naf-rev2')?.schema
 
     let buffer
     let startBuffer = false
     const getFiltered = async () => {
         if (searchValue?.length > 0 && !startBuffer) {
             if (buffer) clearInterval(buffer)
-            resultData = null
+            resultData = undefined
             buffer = setTimeout(async () => {
                 startBuffer = true
-                resultData = await (await fetch(encodeURI(`${$page.url.origin}/api/utils/naf?engine=${nafIndexCodes.find(f => f.code == selectedValue).index}&q=${searchValue}`))).json()
+                resultData = await (await fetch(encodeURI(`${$page.url.origin}/api/utils/naf?engine=${NafEnginesMap.find(f => f.code == selectedValue).engine}&q=${searchValue}`))).json()
                 clearInterval(buffer)
                 buffer = null
                 startBuffer = false
@@ -50,8 +58,8 @@
 
     const cleanFiltered = () => {
         searchValue = null
-        resultData = null
-        currentSchema = nafSchemaCodes.find(f => f.code == selectedValue)?.schema
+        resultData = undefined
+        currentSchema = NafEnginesMap.find(f => f.code == selectedValue)?.schema
     }
 </script>
 
@@ -90,14 +98,15 @@
     </article>
     <article class='px-6 lg:px-24 w-full sm:w-3/4 mb-12'>
         <form autocomplete='off' class='w-full mb-3' on:submit|preventDefault={getFiltered}>
-            <Select bind:value={selectedValue} class='dark:!bg-gray-800 my-3 sm:hidden' items={nafCodes}
+            <Select bind:value={selectedValue} class='dark:!bg-gray-800 my-3 sm:hidden drop-shadow-md' items={nafCodes}
                     on:change={cleanFiltered} placeholder='----'
                     shadow/>
             <Search bind:value={searchValue}
                     class='transition-all duration-300 ease-in-out shadow dark:!bg-transparent w-full'
                     on:input={getFiltered}
                     placeholder='Référence ou libellée'>
-                <Select bind:value={selectedValue} class='dark:!bg-gray-800 mx-3 max-sm:hidden' items={nafCodes}
+                <Select bind:value={selectedValue} class='dark:!bg-gray-800 mx-3 max-sm:hidden drop-shadow-md'
+                        items={nafCodes}
                         on:change={cleanFiltered} placeholder='----'
                         shadow/>
                 <Button class='drop-shadow-md shadow transition-all duration-300 ease-in-out' type='submit'>Rechercher
@@ -105,7 +114,7 @@
             </Search>
         </form>
         {#if resultData && resultData.results.length > 0}
-            <Table shadow>
+            <Table class="transition-all duration-300 ease-in-out" shadow>
                 <TableHead>
                     <TableHeadCell>{currentSchema.id?.label}</TableHeadCell>
                     {#if currentSchema.n5?.label}
@@ -119,23 +128,23 @@
                 <TableBody>
                     {#each resultData.results as result}
                         <TableBodyRow>
-                            <TableBodyCell>{result?.[currentSchema.id?.pre_raw]?.raw}</TableBodyCell>
+                            <TableBodyCell>{result?.[currentSchema.id?.code]}</TableBodyCell>
                             {#if currentSchema.n5?.label}
-                                <TableBodyCell>{result?.[currentSchema.n5?.pre_raw]?.raw}</TableBodyCell>
+                                <TableBodyCell>{result?.[currentSchema.n5?.code]}</TableBodyCell>
                             {/if}
-                            <TableBodyCell>{result?.[currentSchema.n4?.pre_raw]?.raw}</TableBodyCell>
-                            <TableBodyCell>{result?.[currentSchema.n3?.pre_raw]?.raw}</TableBodyCell>
-                            <TableBodyCell>{result?.[currentSchema.n2?.pre_raw]?.raw}</TableBodyCell>
-                            <TableBodyCell>{result?.[currentSchema.n1?.pre_raw]?.raw}</TableBodyCell>
+                            <TableBodyCell>{result?.[currentSchema.n4?.code]}</TableBodyCell>
+                            <TableBodyCell>{result?.[currentSchema.n3?.code]}</TableBodyCell>
+                            <TableBodyCell>{result?.[currentSchema.n2?.code]}</TableBodyCell>
+                            <TableBodyCell>{result?.[currentSchema.n1?.code]}</TableBodyCell>
                         </TableBodyRow>
                     {/each}
                 </TableBody>
             </Table>
         {:else if resultData && resultData.results.length === 0}
-            <P>Aucun résultat trouvé.</P>
-            <P class='italic !text-gray-500'>Le moteur de recherche est en version bêta.</P>
+            <P class="drop-shadow-md">Aucun résultat trouvé.</P>
+            <P class='italic !text-gray-500 drop-shadow-md'>Le moteur de recherche est en version bêta.</P>
         {:else if (startBuffer || buffer) && searchValue?.length > 0}
-            <Spinner></Spinner>
+            <Spinner class="drop-shadow-md m-6"></Spinner>
         {/if}
     </article>
 </section>
