@@ -4,18 +4,16 @@
     import {page} from "$app/stores";
     import {onMount} from "svelte";
     import {extract, type FeedData, type FeedEntry} from '@extractus/feed-extractor'
-    import CountUp from "countup";
+    import {CountUp} from "countup.js";
 
     let rssEntries: FeedEntry[] = []
 
     onMount(async () => {
-        const response: FeedData = (await extract($page.url.origin + '/rss', {descriptionMaxLen: (Number.MAX_SAFE_INTEGER)}))
-        rssEntries = response.entries
+        new CountUp('etablissements', (await (await fetch(`${$page.url.origin}/api/establishments/count`)).json())?.document_count ?? 0, {enableScrollSpy: true})//.start();
+        new CountUp('entreprises', (await (await fetch(`${$page.url.origin}/api/companies/count`)).json())?.document_count ?? 0, {enableScrollSpy: true})//.start();
 
-        // noinspection TypeScriptValidateTypes
-        new CountUp('etablissements', 0, 34056238).start();
-        // noinspection TypeScriptValidateTypes
-        new CountUp('entreprises', 0, 23987284).start();
+        const response: FeedData = (await extract(`${$page.url.origin}/rss`, {descriptionMaxLen: (Number.MAX_SAFE_INTEGER)}))
+        rssEntries = response.entries
     })
 </script>
 
@@ -30,7 +28,7 @@
             class="text-center flex flex-col items-center justify-center">
         <Heading class="mb-4" customSize="text-4xl font-extrabold md:text-5xl lg:text-6xl" tag="h1">
             <span class="drop-shadow-md">NuState
-                <span class="relative inline-block -skew-y-6 px-3 py-1 bg-blue-500 text-neutral-100">API</span>
+                <span class="relative inline-block -skew-y-6 px-3 py-1 bg-blue-500 text-neutral-100">Search</span>
             </span>
         </Heading>
         <P class="drop-shadow-md mb-6 text-lg text-center lg:text-xl w-3/4 lg:w-1/2 mx-auto">
@@ -59,7 +57,7 @@
         <Card class="dark:!bg-transparent" shadow>
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white drop-shadow-md"
                 id="entreprises">
-                23,987,284
+                0
             </h5>
             <p class="font-normal text-gray-700 dark:text-gray-400 leading-tight drop-shadow-md">
                 Entreprises enregistrées
@@ -68,7 +66,7 @@
         <Card class="dark:!bg-transparent" shadow>
             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white drop-shadow-md"
                 id="etablissements">
-                34,056,238
+                0
             </h5>
             <p class="font-normal text-gray-700 dark:text-gray-400 leading-tight drop-shadow-md">
                 Établissements enregistrés
