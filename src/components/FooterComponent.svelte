@@ -1,11 +1,19 @@
-<script>
+<script lang="ts">
     import {Footer, FooterBrand, FooterCopyright, FooterLink, FooterLinkGroup, Indicator, P} from "flowbite-svelte";
     import {RssSvg} from "$components/public-api";
+    import {onMount} from "svelte";
+    import {page} from "$app/stores";
+
+    let status_color = "dark"
+    onMount(async () => {
+        const responseData = await (await fetch(`${$page.url.origin}/api/status`)).json()
+        status_color = responseData.status_color
+    })
 </script>
 
 <section class="mx-auto flex px-6">
     <article class="my-2 mx-auto">
-        <Footer class="!bg-transparent drop-shadow-md shadow shadow-md rounded-lg" footerType="socialmedia" shadow>
+        <Footer class="!bg-transparent drop-shadow-md shadow-md rounded-lg" footerType="socialmedia" shadow>
             <div class="md:flex md:justify-between">
                 <div class="mb-6 md:mb-0 mr-3 drop-shadow-md">
                     <FooterBrand
@@ -27,19 +35,19 @@
                                 <a class="sr-only" href="/rss">rss</a>
                                 <a class="sr-only" href="/atom1">atom1</a>
                                 <a class="sr-only" href="/json1">json1</a>
-                                <p class="flex inline-flex">
+                                <p class="inline-flex">
                                     Feed
                                     <RssSvg className="h-2 ml-0.5"></RssSvg>
                                 </p>
                             </FooterLink>
-                            <FooterLink href="/" liClass="mb-2">
-                                <p class="flex inline-flex">
+                            <FooterLink href="https://status.nustate.eu" liClass="mb-2">
+                                <p class="inline-flex">
                                     Status
-                                    <Indicator color="red" size="xs"/>
+                                    <Indicator color={status_color} size="xs"/>
                                 </p>
                             </FooterLink>
                             <FooterLink href="/" liClass="mb-2">
-                                <p class="flex inline-flex">
+                                <p class="inline-flex">
                                     API
                                     <Indicator color="red" size="xs"/>
                                 </p>
