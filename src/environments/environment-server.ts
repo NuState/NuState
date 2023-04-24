@@ -17,9 +17,12 @@ export const environment = {
         client_x509_cert_url: env['FBA_SDK_client_x509_cert_url'],
     } as AppOptions,
     firebaseDatabaseURL: env['FBA_SDK_databaseURL'],
+    betteruptime: env['BETTERUPTIME_KEY'],
     engines: {
-        endpoint: env['ENGINE_ENDPOINT_KEY'],
-        searchCodes: env['ENGINE_SEARCH_CODES_KEY'],
-        searchStock: env['ENGINE_SEARCH_STOCK_KEY'],
+        endpointKey: env['ENGINE_ENDPOINT_KEY'],
+        searchCodesKey: env['ENGINE_SEARCH_CODES_KEY'],
+        codesKey: env['ENGINE_CODES_KEY'],
+        searchStockKey: env['ENGINE_SEARCH_STOCK_KEY'],
+        stockKey: env['ENGINE_STOCK_KEY'],
     }
 }
