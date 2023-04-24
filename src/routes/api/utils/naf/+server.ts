@@ -24,17 +24,17 @@ export async function GET({url, fetch}: { url: URL, fetch: typeof window.fetch }
     if (!q || !engine) throw error(400, {message: 'Error 400 : Bad request'})
     if (!NafEngines.includes(engine as NafEngine)) throw error(400, {message: 'Error 400 : Bad request (Wrong engine)'})
 
-    if (!environment.engines.endpoint) throw error(503, 'Error 503: Missing ENV_X205X0')
-    if (!environment.engines.searchCodes) throw error(503, 'Error 503: Missing ENV_X693X1')
+    if (!environment.engines.endpointKey) throw error(503, 'Error 503: Missing ENV_X205X0')
+    if (!environment.engines.searchCodesKey) throw error(503, 'Error 503: Missing ENV_X693X1')
 
     let find: ElasticsearchResponse<NafSchemaT1 | NafSchemaT2>
 
     try {
-        find = await (await fetch(encodeURI(`https://${environment.engines.endpoint}/api/as/v1/engines/${engine}/search?query=${q}`), {
+        find = await (await fetch(encodeURI(`https://${environment.engines.endpointKey}/api/as/v1/engines/${engine}/search?query=${q}`), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${environment.engines.searchCodes}`,
+                'Authorization': `Bearer ${environment.engines.searchCodesKey}`,
             },
             body: JSON.stringify({
                 page: {
