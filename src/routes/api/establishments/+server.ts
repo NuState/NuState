@@ -8,17 +8,17 @@ export async function GET({url, fetch}: { url: URL, fetch: any }) {
 
     if (!q) throw error(400, {message: "Error 400 : Bad request"})
 
-    if (!environment.engines.endpoint) throw error(503, 'Error 503: Missing ENV_X205X0')
-    if (!environment.engines.searchStock) throw error(503, 'Error 503: Missing ENV_X916X1')
+    if (!environment.engines.endpointKey) throw error(503, 'Error 503: Missing ENV_X205X0')
+    if (!environment.engines.searchStockKey) throw error(503, 'Error 503: Missing ENV_X916X1')
 
     let find: any | undefined
 
     try {
-        find = await (await fetch(encodeURI(`https://${environment.engines.endpoint}/api/as/v1/engines/search-stock-etablissements/search?query=${q}`), {
+        find = await (await fetch(encodeURI(`https://${environment.engines.endpointKey}/api/as/v1/engines/search-stock-etablissements/search?query=${q}`), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${environment.engines.searchStock}`,
+                'Authorization': `Bearer ${environment.engines.searchStockKey}`,
             },
             body: JSON.stringify({
                 page: {
